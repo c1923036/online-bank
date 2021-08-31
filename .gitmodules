@@ -1,0 +1,3 @@
+[submodule "core/home"]
+	path = core/home
+	url = https://github.com/c1923036/Home
