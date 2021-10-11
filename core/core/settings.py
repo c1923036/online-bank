@@ -53,14 +53,9 @@ MIDDLEWARE = [
 ROOT_URLCONF = 'core.urls'
 
 TEMPLATES = [
-    { 
-        'BACKEND':'django.template.backends.jinja2.Jinja2',
-        'DIRS': ['%s/jinjatemplates/'% (PROJECT_DIR),],
-        'APP_DIRS': True,
-        },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['/templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
