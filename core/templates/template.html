@@ -17,7 +17,7 @@
 
     <div class="container-fluid">
       <div class="row justify-content-md-center">
-        <div class="col"> <img src="{{ static('test.png') }}" alt="image alt text" /> </div>      
+        <div class="col"> {% load static %} <img src="{% static 'core/test.png' %}"> </div>      
         <div class="col">Help</div>
         <div class="col">Branch Finder</div>
         <div class="col">Log In</div>
