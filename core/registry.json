@@ -1,0 +1,12 @@
+[
+    {
+        "name": "home",
+        "showOnNavbar": false,
+        "navbarDetails": []
+    },
+    {
+        "name": "Login",
+        "showOnNavbar": true,
+        "navbarDetails": [{"displayName": "Log In", "link": "/login"}]
+    }
+]
