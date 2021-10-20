@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" href="main.css">
+    <link rel="stylesheet" type="text/css" href="templateslink/main.css">
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-    <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="custom.css">
+    <script src="templateslink/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="templateslink/custom.css">
 
     <title>West Midlands Regional Bank</title>
   </head>
@@ -18,7 +18,8 @@
       <h1 class="text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">WEST MIDLANDS REGIONAL BANK</h1>
       <div class="container">
         <ul class="nav justify-content-end" id="navbar">
-          <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+          
+          
         </ul>
       </div>
     </div>
@@ -27,7 +28,59 @@
         {% block content %}{% endblock %}
       </div>
     </div>
-    <script src="fillNavbar.js"></script> 
+    <script>
+      window.onload = function createNav() {
+        var data = registry;
+        var nav = document.getElementById("navbar")
+        var strToAppend;
+        for (var i=0; i<data.length; i++) {
+            if (data[i]["url"] == window.location.pathname && data[i]["navbar"]["present"] == true) {
+                for (var j=0; j<data[i]["navbar"]["items"].length; j++) {
+                    strToAppend = '<li class=\"nav-item\"><a class=\"nav-link\" href=\"' + data[i]["navbar"]["items"][j]["url"] + '\">' + data[i]["navbar"]["items"][j]["name"] + '</a></li>'
+                    nav.innerHTML += strToAppend;
+                }
+            }
+        }
+      };
+    </script> 
+
+    <script>
+      var registry = [
+    {
+        "name": "home",
+        "displayName": "",
+        "url": "/",
+        "navbar": {
+            "present": true,
+            "items": [
+                {
+                    "name": "Log In",
+                    "url": "/login"
+                },
+                {
+                    "name": "Find Branch",
+                    "url": "/findbranch"
+                },
+                {
+                    "name": "Help",
+                    "url": "/help"
+                }
+            ]
+        }
+    },
+    {
+        "name": "login",
+        "displayName": "Log In",
+        "url": "/login",
+        "navbar": {
+            "present": true,
+            "items": [
+                {"name": "Login"}
+            ]
+        }
+    }
+];
+    </script>
 
     <!-- Optional JavaScript; choose one of the two! -->
 
