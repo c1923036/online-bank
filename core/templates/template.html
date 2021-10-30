@@ -25,13 +25,13 @@
       </div>
     </div>
     <div class="fluid-container h-85">
-      <div class="container content">
-        {% block content %}{% endblock %}
+      <div class="container content p-0 text-center d-flex" id="blockContent">
+        
       </div>
     </div>
     <script>
-      window.onload = function createNav() {
-        var data = registry;
+      window.addEventListener("load",function createNav() {
+        var data = pageRegistry;
         var nav = document.getElementById("navbar")
         var strToAppend;
         for (var i=0; i<data.length; i++) {
@@ -42,11 +42,27 @@
                 }
             }
         }
-      };
-    </script> 
+      }, false);
+    </script>
 
     <script>
-      var registry = [
+      window.addEventListener("load",function createContent() {
+        var data = pageItems;
+        var container = document.getElementById("blockContent")
+        var strToAppend;
+        for (var i=0; i<data.length; i++) {
+            switch(data[i]["class"]) {
+              case "image":
+                container.innerHTML += "<img src=\"static/" + data[i]["path"] + "\" class=\"img-fluid\">";
+              case "imageOverlayText":
+                container.innerHTML += "<i class=\"w-100 position-absolute text-white d-flex\">{% block content %}{% endblock %}</i>"
+            }
+        }
+      }, false);
+    </script>
+
+    <script>
+      var pageRegistry = [
     {
         "name": "home",
         "displayName": "",
@@ -81,6 +97,20 @@
         }
     }
 ];
+    </script>
+
+    <script>
+      var pageItems = [
+        {
+          "class": "image",
+          "path": "landing-page-image.jpg"
+        },
+        {
+          "class": "imageOverlayText",
+          "text": "",
+          "position": ""
+        }
+      ];
     </script>
 
     <!-- Optional JavaScript; choose one of the two! -->
