@@ -24,8 +24,8 @@
         </ul>
       </div>
     </div>
-    <div class="fluid-container h-85">
-      <div class="container content p-0 text-center d-flex" id="blockContent">
+    <div class="fluid-container h-100">
+      <div class="container col-centered p-100 h-100" id="blockContent">
         
       </div>
     </div>
@@ -49,13 +49,19 @@
       window.addEventListener("load",function createContent() {
         var data = pageItems;
         var container = document.getElementById("blockContent")
-        var strToAppend;
+        var strToAppend = "";
         for (var i=0; i<data.length; i++) {
             switch(data[i]["class"]) {
               case "image":
-                container.innerHTML += "<img src=\"static/" + data[i]["path"] + "\" class=\"img-fluid\">";
-              case "imageOverlayText":
-                container.innerHTML += "<i class=\"w-100 position-absolute text-white d-flex\">{% block content %}{% endblock %}</i>"
+                strToAppend += "<div class=\"text-white container-fluid h-auto text-center col-centered\" style=\"background-image: url(\'static/" + data[i]["path"] + "\'); background-size: cover; height: 400px !important; position: relative;\">";
+                if (data[i]["overlay"] != null){
+                  strToAppend += data[i]["overlay"]["content"];
+                }
+                strToAppend += "</div>";
+                container.innerHTML += strToAppend;
+              case "50:50-split":
+                strToAppend = "<div class=\"container\"><div class=\"row\"><div class=\"col-6\">ONE</div><div class=\"col-6\">TWO</div></div></div>";
+                container.innerHTML += strToAppend;
             }
         }
       }, false);
@@ -103,12 +109,15 @@
       var pageItems = [
         {
           "class": "image",
-          "path": "landing-page-image.jpg"
+          "path": "landing-page-image.jpg",
+          "overlay": {
+            "content": "{% block content %}{% endblock %}"
+          }
         },
         {
-          "class": "imageOverlayText",
-          "text": "",
-          "position": ""
+          "class": "50:50-split",
+          "leftContent": "{% block leftSplit %}{% endblock %}",
+          "rightContent": "{% block rightSplit %}{% endblock %}"
         }
       ];
     </script>
