@@ -1,5 +1,5 @@
 .nav-link {color: white;}
-.nav-link:hover, .nav-link:focus {
+.nav-link:hover, .nav-link:focus, .footer-Link:hover, .footer-Link:hover {
     color: black;
 }
 .fluid-container {
@@ -8,3 +8,4 @@
 .content {
     background-color: lightgrey;
 }
+.footer-Link {color: white; text-decoration: none;}
