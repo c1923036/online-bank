@@ -16,7 +16,7 @@
     <title>West Midlands Regional Bank</title>
   </head>
   <body style="height: 100%;">
-    <div class="jumbotron bg-primary margin h-15">
+    <div class="jumbotron margin h-15" style="background-color:{{flatpage.header_colour}};">
       <h1 class="text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">WEST MIDLANDS REGIONAL BANK</h1>
       <div class="container">
         <ul class="nav justify-content-end" id="navbar">
@@ -24,20 +24,17 @@
         </ul>
       </div>
     </div>
-    <div class="fluid-container h-100">
-      <div class="container col-centered p-100 h-100" id="blockContent">
+    <div class="fluid-container h-100" style="background-color:{{flatpage.margin_colour}};">
+      <div class="container col-centered p-100 h-100" id="blockContent" style="background-color:{{flatpage.page_colour}};">
         {% block content %}{% endblock %}
       </div>
     </div>
 
-    
-
     <script src="{% static 'js/createNavAndFooter.js' %}"></script>
-
 
   </body>
 
-  <footer class="page-footer font-small text-white bg-primary pt-4">
+  <footer class="page-footer font-small text-white pt-4" style="background-color:{{flatpage.footer_colour}};">
     <div class="container-fluid text-center text-md-left">
       <div class="row">
         <div class="col-md-6 mt-md-0 mt-3">
