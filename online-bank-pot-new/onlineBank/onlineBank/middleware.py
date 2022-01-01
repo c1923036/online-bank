@@ -11,7 +11,8 @@ class myFlatpages:
             for page in pages:
                 if page.url == request.path:
                     navbarContents = getNavBarContents(pages)
-                    args = {'flatpage': page, 'navbarContents': navbarContents}
+                    footerContents = getFooterContents(pages)
+                    args = {'flatpage': page, 'navbarContents': navbarContents, 'footerContents': footerContents}
                     response = render(request, 'flatpages/default.html', args)
         return response
 
@@ -22,3 +23,10 @@ def getNavBarContents(pages):
         if page.appearOnNavbar == True:
             navbarContents.append({'name': page.title, 'url': page.url})
     return navbarContents
+
+def getFooterContents(pages):
+    footerContents = []
+    for page in pages:
+        if page.appearOnNavbar == True:
+            footerContents.append({'name': page.title, 'url': page.url})
+    return footerContents

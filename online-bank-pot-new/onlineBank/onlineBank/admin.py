@@ -13,7 +13,7 @@ class ExtendedFlatPageForm(FlatpageForm):
 class ExtendedFlatPageAdmin(FlatPageAdmin):
     form = ExtendedFlatPageForm
     fieldsets = (
-        (None, {'fields': ('url', 'title', 'content', 'sites', 'appearOnNavbar')}),
+        (None, {'fields': ('url', 'title', 'content', 'sites', 'appearOnNavbar', 'appearOnFooter')}),
     )
 
 admin.site.unregister(FlatPage)

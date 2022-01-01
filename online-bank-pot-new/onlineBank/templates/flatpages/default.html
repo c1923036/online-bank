@@ -3,7 +3,8 @@
 {% block content %}{% autoescape off %}
 
     {{ flatpage.content }}
-    
+
     <script>navbarContents = {{ navbarContents }}</script>
+    <script>footerContents = {{ footerContents }}</script>
 
 {% endautoescape %}{% endblock %}
