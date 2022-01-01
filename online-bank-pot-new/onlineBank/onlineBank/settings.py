@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l@=m2fu%ur(b7o*#azc!*p$0d5(0ku2)+a@i9++e424k)itfx-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["172.31.149.0"]
+ALLOWED_HOSTS = ["172.31.149.186"]
 
 
 # Application definition
@@ -50,7 +50,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    #'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
+    'onlineBank.middleware.myFlatpages',
+
 ]
 
 ROOT_URLCONF = 'onlineBank.urls'
