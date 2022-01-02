@@ -1,4 +1,6 @@
 from onlineBank.models import MyFlatPage
+from onlineBank.models import MySite
+import os
 from django.shortcuts import render
 class myFlatpages:
     def __init__(self, get_response):
@@ -10,9 +12,10 @@ class myFlatpages:
             pages = MyFlatPage.objects.all()
             for page in pages:
                 if page.url == request.path:
+                    site = page.appearOnSites
                     navbarContents = getNavBarContents(pages)
                     footerContents = getFooterContents(pages)
-                    args = {'flatpage': page, 'navbarContents': navbarContents, 'footerContents': footerContents}
+                    args = {'flatpage': page, 'navbarContents': navbarContents, 'footerContents': footerContents, 'site': site}
                     response = render(request, 'flatpages/default.html', args)
         return response
 

@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l@=m2fu%ur(b7o*#azc!*p$0d5(0ku2)+a@i9++e424k)itfx-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["172.31.149.186"]
+ALLOWED_HOSTS = ["172.31.144.183"]
 
 
 # Application definition
@@ -60,7 +60,7 @@ ROOT_URLCONF = 'onlineBank.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['templates'],
+        'DIRS': [str(BASE_DIR) + '/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
