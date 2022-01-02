@@ -12,11 +12,16 @@
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static '/custom.css' %}">
-
+    <link rel="icon" src="{% static logo %}">
     <title>{{ site.bankName }}</title>
   </head>
   <body style="height: 100%;">
     <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}};">
+
+      <a class="navbar-brand" href="#">
+        <img src="{% static logo %}" width="100" height="100" alt="">
+      </a>
+
       <h1 class="text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">{{ site.bankName }}</h1>
       <div class="container">
         <ul class="nav justify-content-end" id="navbar">

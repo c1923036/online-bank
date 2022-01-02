@@ -13,7 +13,7 @@ from django.contrib.sites.admin import SiteAdmin
 #from django.cont import SiteForm
 from django.contrib.sites.models import Site
 
-from .models import MyFlatPage, MySite
+from .models import MyFlatPage, MySite, innerTemplate, logo, outerTemplate, staticFile
 
 class ExtendedSiteForm(ModelForm):
     class Meta:
@@ -28,10 +28,8 @@ class ExtendedSiteForm(ModelForm):
 class ExtendedSiteAdmin(SiteAdmin):
     form = ExtendedSiteForm
     fieldsets = (
-        (None, {'fields': ('domain', 'name', 'bankName', 'header_colour', 'footer_colour', 'margin_colour')}),
+        (None, {'fields': ('domain', 'name', 'bankName', 'header_colour', 'footer_colour', 'margin_colour', 'template', 'logo')}),
     )
-
-
 
 
 class ExtendedFlatPageForm(FlatpageForm):
@@ -45,8 +43,53 @@ class ExtendedFlatPageForm(FlatpageForm):
 class ExtendedFlatPageAdmin(FlatPageAdmin):
     form = ExtendedFlatPageForm
     fieldsets = (
-        (None, {'fields': ('url', 'title', 'content', 'appearOnSites', 'appearOnNavbar', 'appearOnFooter', 'page_colour')}),
+        (None, {'fields': ('url', 'title', 'content', 'appearOnSites', 'appearOnNavbar', 'appearOnFooter', 'page_colour', 'template')}),
     )
+
+class innerTemplateForm(ModelForm):
+    class Meta:
+        model = innerTemplate
+        fields = '__all__'
+
+class innerTemplateAdmin(admin.ModelAdmin):
+    form = innerTemplateForm
+    fieldsets = (
+        (None, {'fields': ('name', 'file')}),
+    )
+
+class outerTemplateForm(ModelForm):
+    class Meta:
+        model = outerTemplate
+        fields = '__all__'
+
+class outerTemplateAdmin(admin.ModelAdmin):
+    form = outerTemplateForm
+    fieldsets = (
+        (None, {'fields': ('name', 'file')}),
+    )
+
+class staticFileForm(ModelForm):
+    class Meta:
+        model = staticFile
+        fields = '__all__'
+
+class staticFileAdmin(admin.ModelAdmin):
+    form = staticFileForm
+    fieldsets = (
+        (None, {'fields': ('name', 'file')}),
+    )
+    
+class logoForm(ModelForm):
+    class Meta:
+        model = logo
+        fields = '__all__'
+
+class logoAdmin(admin.ModelAdmin):
+    form = logoForm
+    fieldsets = (
+        (None, {'fields': ('name', 'file')}),
+    )
+
 
 
 admin.site.unregister(Site)
@@ -55,3 +98,7 @@ admin.site.register(MySite, ExtendedSiteAdmin)
 admin.site.unregister(FlatPage)
 admin.site.register(MyFlatPage, ExtendedFlatPageAdmin)
 
+admin.site.register(innerTemplate, innerTemplateAdmin)
+admin.site.register(outerTemplate, outerTemplateAdmin)
+admin.site.register(staticFile, staticFileAdmin)
+admin.site.register(logo, logoAdmin)
