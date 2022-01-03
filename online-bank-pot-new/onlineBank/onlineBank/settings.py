@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l@=m2fu%ur(b7o*#azc!*p$0d5(0ku2)+a@i9++e424k)itfx-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["172.31.144.183"]
+ALLOWED_HOSTS = ["172.31.148.247"]
 
 
 # Application definition
@@ -86,6 +86,8 @@ DATABASES = {
     }
 }
 
+LOGIN_REDIRECT_URL = '/accounts/'
+LOGOUT_REDIRECT_URL = '/about/'
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -134,3 +136,6 @@ STATICFILES_DIRS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+NAVBAR_CONSTANTS = [{'name': 'login', 'url': '/login'}, {'name': 'logout', 'url': '/logout'}]

@@ -18,16 +18,19 @@
   <body style="height: 100%;">
     <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}};">
 
-      <a class="navbar-brand" href="#">
-        <img src="{% static logo %}" width="100" height="100" alt="">
-      </a>
+      <nav class="navbar navbar-expand-lg navbar-light">
+        <a class="navbar-brand text-white text-center font-weight-bold font-family-sans-serif" href="#" style="font-size: 54px">
+          <img src="{% static logo %}" height="10%" width="10%" alt="">
+          {{ site.bankName }}
+        </a>
 
-      <h1 class="text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">{{ site.bankName }}</h1>
-      <div class="container">
-        <ul class="nav justify-content-end" id="navbar">
+        <div class="container justify-content-end">
+          <ul class="nav" id="navbar">
+          </ul>
+        </div>
+      </nav>
 
-        </ul>
-      </div>
+
     </div>
     <div class="fluid-container h-100" style="background-color:{{site.margin_colour}};">
       <div class="container col-centered p-100 h-100" id="blockContent" style="background-color:{{flatpage.page_colour}};">

@@ -1,0 +1,11 @@
+{% extends outerTemplate %}
+
+{% block content %}{% autoescape off %}
+
+    <b>Account Data</b>
+    <b>{{ userAccount.accountBalance }}</b>
+
+    <script>navbarContents = {{ navbarContents }}</script>
+    <script>footerContents = {{ footerContents }}</script>
+
+{% endautoescape %}{% endblock %}

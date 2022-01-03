@@ -13,7 +13,8 @@ from django.contrib.sites.admin import SiteAdmin
 #from django.cont import SiteForm
 from django.contrib.sites.models import Site
 
-from .models import MyFlatPage, MySite, innerTemplate, logo, outerTemplate, staticFile
+from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile
+
 
 class ExtendedSiteForm(ModelForm):
     class Meta:
@@ -25,10 +26,12 @@ class ExtendedSiteForm(ModelForm):
             'margin_colour': TextInput(attrs={'type': 'color'}),
         }
 
+
 class ExtendedSiteAdmin(SiteAdmin):
     form = ExtendedSiteForm
     fieldsets = (
-        (None, {'fields': ('domain', 'name', 'bankName', 'header_colour', 'footer_colour', 'margin_colour', 'template', 'logo')}),
+        (None, {'fields': ('domain', 'name', 'bankName', 'header_colour',
+         'footer_colour', 'margin_colour', 'template', 'logo')}),
     )
 
 
@@ -40,16 +43,20 @@ class ExtendedFlatPageForm(FlatpageForm):
             'page_colour': TextInput(attrs={'type': 'color'}),
         }
 
+
 class ExtendedFlatPageAdmin(FlatPageAdmin):
     form = ExtendedFlatPageForm
     fieldsets = (
-        (None, {'fields': ('url', 'title', 'content', 'appearOnSites', 'appearOnNavbar', 'appearOnFooter', 'page_colour', 'template')}),
+        (None, {'fields': ('url', 'title', 'content', 'appearOnSites', 'registration_required',
+         'appearOnNavbar', 'appearOnFooter', 'page_colour', 'template')}),
     )
+
 
 class innerTemplateForm(ModelForm):
     class Meta:
         model = innerTemplate
         fields = '__all__'
+
 
 class innerTemplateAdmin(admin.ModelAdmin):
     form = innerTemplateForm
@@ -57,10 +64,12 @@ class innerTemplateAdmin(admin.ModelAdmin):
         (None, {'fields': ('name', 'file')}),
     )
 
+
 class outerTemplateForm(ModelForm):
     class Meta:
         model = outerTemplate
         fields = '__all__'
+
 
 class outerTemplateAdmin(admin.ModelAdmin):
     form = outerTemplateForm
@@ -68,21 +77,25 @@ class outerTemplateAdmin(admin.ModelAdmin):
         (None, {'fields': ('name', 'file')}),
     )
 
+
 class staticFileForm(ModelForm):
     class Meta:
         model = staticFile
         fields = '__all__'
+
 
 class staticFileAdmin(admin.ModelAdmin):
     form = staticFileForm
     fieldsets = (
         (None, {'fields': ('name', 'file')}),
     )
-    
+
+
 class logoForm(ModelForm):
     class Meta:
         model = logo
         fields = '__all__'
+
 
 class logoAdmin(admin.ModelAdmin):
     form = logoForm
@@ -90,6 +103,17 @@ class logoAdmin(admin.ModelAdmin):
         (None, {'fields': ('name', 'file')}),
     )
 
+class accountForm(ModelForm):
+    class Meta:
+        model = account
+        fields = '__all__'
+
+
+class accountAdmin(admin.ModelAdmin):
+    form = accountForm
+    fieldsets = (
+        (None, {'fields': ('accountNumber', 'accountOwner', 'accountName', 'accountBalance')}),
+    )
 
 
 admin.site.unregister(Site)
@@ -102,3 +126,4 @@ admin.site.register(innerTemplate, innerTemplateAdmin)
 admin.site.register(outerTemplate, outerTemplateAdmin)
 admin.site.register(staticFile, staticFileAdmin)
 admin.site.register(logo, logoAdmin)
+admin.site.register(account, accountAdmin)
