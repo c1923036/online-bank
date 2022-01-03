@@ -3,7 +3,10 @@
 {% block content %}{% autoescape off %}
 
     <b>Account Data</b>
-    <b>{{ userAccount.accountBalance }}</b>
+    {% for account in userAccounts %}
+        <b>{{ account.accountBalance }}</b>
+    {% endfor %}
+    
 
     <script>navbarContents = {{ navbarContents }}</script>
     <script>footerContents = {{ footerContents }}</script>

@@ -68,13 +68,13 @@ def accounts(request):
         removeUnneccessaryContents(navbarContents, request.user.is_authenticated)
         
         accounts = account.objects.all()
-        
+        userAccounts = []
         for bankAccount in accounts:
             if bankAccount.accountOwner.username == request.user.username:
-                userAccount = bankAccount
+                userAccounts.append(bankAccount)
 
         args = {'navbarContents': navbarContents, 'footerContents': footerContents,
-                'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'userAccount': userAccount}
+                'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'userAccounts': userAccounts}
 
         return render(request, 'accounts.html', args)
 
