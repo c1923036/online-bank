@@ -1,6 +1,7 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
 from onlineBank.models import MySite, MyFlatPage, account
+from django.contrib.auth.models import User
 from onlineBank.middleware import getNavBarContents, getFooterContents, removeUnneccessaryContents
 import os
 
@@ -63,9 +64,9 @@ def accounts(request):
             logo = None
 
         pages = MyFlatPage.objects.all()
-        navbarContents = getNavBarContents(pages)
+        #navbarContents = getNavBarContents(pages)
         footerContents = getFooterContents(pages)
-        removeUnneccessaryContents(navbarContents, request.user.is_authenticated)
+        #removeUnneccessaryContents(navbarContents, request.user.is_authenticated)
         
         accounts = account.objects.all()
         userAccounts = []
@@ -73,8 +74,14 @@ def accounts(request):
             if bankAccount.accountOwner.username == request.user.username:
                 userAccounts.append(bankAccount)
 
+        user = userAccounts[0].accountOwner
+
+        page = {}
+        page["page_colour"] = "#FFFFFF"
+
+        navbarContents = []
         args = {'navbarContents': navbarContents, 'footerContents': footerContents,
-                'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'userAccounts': userAccounts}
+                'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'userAccounts': userAccounts, 'flatpage': page, 'user': user}
 
         return render(request, 'accounts.html', args)
 

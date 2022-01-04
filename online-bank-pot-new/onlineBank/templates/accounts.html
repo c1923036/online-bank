@@ -2,26 +2,79 @@
 
 {% block content %}{% autoescape off %}
 
-    <table class="table mt-3">
-        <thead>
-            <tr>
-              <th scope="col">Account Number</th>
-              <th scope="col">Account Name</th>
-              <th scope="col">Balance</th>
-            </tr>
-          </thead>
-        <tbody>
-    {% for account in userAccounts %}
-            <tr>
-                <td>{{ account.accountNumber }}</td>
-                <td>{{ account.accountName }}</td>
-                <td>{{ account.accountBalance }}</td>
-            </tr>
-    {% endfor %}
-        </tbody>
-    </table>
-    
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="col">
+        <div class="row">
+            <a class="navbar-brand pt-0"><b>Welcome {{user.first_name}} {{user.last_name}}</b></a>
+        </div>
+        <div class="row">
+            <small class="text-muted">Last logged in on {{user.last_login}}</small>
+        </div>
+    </div>
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-lg-flex align-items-center">
+        
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="/accounts/">Your Accounts</a>
+        </li>
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="#">Your Profile</a>
+        </li>
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="#">Help &amp; Contact Us</a>
+        </li>
+        <li class="nav-item active mx-1">
+            <a class="nav-link" href="#"><i class="bi bi-envelope-open-fill" style="font-size: 1.5rem; color: {{site.header_colour}};"></i></a>
+        </li>
+        <li class="nav-item active border-start">
+            <a class="nav-link" href="/logout">Log Off</a>
+        </li>
 
+    </ul>
+</nav>
+
+    {% for account in userAccounts %}
+        <div class="d-flex justify-content-center">
+            <div class="card mt-3 w-75 container-fluid shadow-lg" style="border-top: 5px solid {{site.header_colour}};">
+                <div class="row">
+                    <div class="col-sm-8 mb-5">
+                        <div class="row">
+                            <div class="col-md-auto">
+                                <h5 class="card-title">{{account.accountName}}</h5>
+                            </div>
+                            <div class="col-md-auto">
+                                <small class="text-muted">{{account.accountSortCode}}</small>
+                            </div>
+                            <div class="col">
+                                <small class="text-muted">{{account.accountNumber}}</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <h2 class="mb-5">£{{account.accountBalance}}</h2>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 flex-column d-flex mh-100" >
+                        <div class="row flex-fill border align-items-center" style="background-color: {{site.margin_colour}}">
+                            <div class="col-10"><b>View Statement</b></div>
+                            <div class="col-1" style="color: {{site.header_colour}}"><b>></b></div>
+                        </div>
+                        <div class="row flex-fill border align-items-center" style="background-color: {{site.margin_colour}}">
+                            <div class="col-10"><b>Make a Payment</b></div>
+                            <div class="col-1" style="color: {{site.header_colour}}"><b>></b></div>
+                        </div>
+                        <div class="row flex-fill border align-items-center" style="background-color: {{site.margin_colour}}">
+                            <div class="col-10"><b>Make a Transfer</b></div>
+                            <div class="col-1" style="color: {{site.header_colour}}"><b>></b></div>
+                        </div>
+                        <div class="row flex-fill border align-items-center" style="background-color: {{site.header_colour}}; color: {{flatpage.page_colour}}">
+                            <div class="col-10"><b>More Actions</b></div>
+                            <div class="col-1" style="color: {{flatpage.page_colour}}"><b>></b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    {% endfor %}
+    
     <script>navbarContents = {{ navbarContents }}</script>
     <script>footerContents = {{ footerContents }}</script>
 

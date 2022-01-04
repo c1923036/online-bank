@@ -58,6 +58,7 @@ class account(models.Model):
     accountOwner = models.ForeignKey(User, on_delete=models.CASCADE)
     accountName = models.CharField(max_length=20, default="Current Account")
     accountBalance = models.DecimalField(max_digits=10, decimal_places=2)
+    accountSortCode = models.CharField(max_length=8, null=True, blank=True)
 
 
 

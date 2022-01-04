@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{% static '/main.css' %}">
     <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
     <script src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/bootstrap-icons/font/bootstrap-icons.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static '/custom.css' %}">
     <link rel="icon" src="{% static logo %}">
     <title>{{ site.bankName }}</title>
@@ -19,7 +20,7 @@
     <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}};">
 
       <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand text-white text-center font-weight-bold font-family-sans-serif" href="#" style="font-size: 54px">
+        <a class="navbar-brand text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">
           <img src="{% static logo %}" height="10%" width="10%" alt="">
           {{ site.bankName }}
         </a>

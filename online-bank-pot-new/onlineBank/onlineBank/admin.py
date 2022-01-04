@@ -112,7 +112,7 @@ class accountForm(ModelForm):
 class accountAdmin(admin.ModelAdmin):
     form = accountForm
     fieldsets = (
-        (None, {'fields': ('accountNumber', 'accountOwner', 'accountName', 'accountBalance')}),
+        (None, {'fields': ('accountNumber', 'accountOwner', 'accountName', 'accountBalance', 'accountSortCode')}),
     )
 
 
