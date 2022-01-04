@@ -8,11 +8,21 @@ def parseCSV():
     dir = os.getcwd()
     csvfile = open('onlineBank/dataset/transactionData.csv', 'r').readlines()
     for i in range(1,len(csvfile)):
-        splitdata.append(csvfile[i].split(","))
+        splitLine = csvfile[i].split(",")
+        splitdata.append(splitLine)
         dataObj = {}
+        dataObj["recipient"] = splitLine[3]
+        dataObj["type"] = splitLine[4]
+        dataObj["amount"] = splitLine[5]
+        dataObj["date"] = splitLine[6]
+        if splitLine[7] == "Negative":
+            dataObj["withdrawal"] = True
+        else:
+            dataObj["withdrawal"] = False
+        dictData.append(dataObj)
         
 
-    return
+    return dictData
 
 if __name__ == '__main__':
     parseCSV()
