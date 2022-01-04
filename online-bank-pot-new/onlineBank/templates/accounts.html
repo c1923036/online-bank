@@ -2,10 +2,24 @@
 
 {% block content %}{% autoescape off %}
 
-    <b>Account Data</b>
+    <table class="table mt-3">
+        <thead>
+            <tr>
+              <th scope="col">Account Number</th>
+              <th scope="col">Account Name</th>
+              <th scope="col">Balance</th>
+            </tr>
+          </thead>
+        <tbody>
     {% for account in userAccounts %}
-        <b>{{ account.accountBalance }}</b>
+            <tr>
+                <td>{{ account.accountNumber }}</td>
+                <td>{{ account.accountName }}</td>
+                <td>{{ account.accountBalance }}</td>
+            </tr>
     {% endfor %}
+        </tbody>
+    </table>
     
 
     <script>navbarContents = {{ navbarContents }}</script>
