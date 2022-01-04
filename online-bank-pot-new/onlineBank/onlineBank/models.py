@@ -60,5 +60,12 @@ class account(models.Model):
     accountBalance = models.DecimalField(max_digits=10, decimal_places=2)
     accountSortCode = models.CharField(max_length=8, null=True, blank=True)
 
-
+class transaction(models.Model):
+    accountNumber = models.ForeignKey(account, on_delete=models.CASCADE)
+    otherAccountNumber = models.CharField(max_length=8, null=True, blank=True)
+    withdrawal = models.BooleanField(default=False)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
+    date = models.DateField()
+    reference = models.CharField(max_length=20, default="")
+    type = models.CharField(max_length=10, default="")
 
