@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from onlineBank.models import MySite, MyFlatPage, account
+from onlineBank.models import MySite, MyFlatPage, account, transaction
 from django.contrib.auth.models import User
 from onlineBank.middleware import getNavBarContents, getFooterContents, removeUnneccessaryContents
 import os
@@ -87,3 +87,44 @@ def accounts(request):
 
     else:
         return redirect('/login/')
+
+
+def statement(request, accountNum):
+    if request.user.is_authenticated == True:
+        userAccount = account.objects.get(accountNumber=accountNum)
+        if userAccount.accountOwner == request.user:
+            
+            sites = MySite.objects.all()
+            requestSite = request._get_raw_host()
+            for site in sites:
+                if site.domain == requestSite:
+                    currentSite = site
+            if currentSite == None:
+                return
+            if site.template != None:
+                outerTemplate = site.template.file.path
+            else:
+                outerTemplate = "template.html"
+            if site.logo != None:
+                logo = os.path.relpath(
+                    site.logo.file.url, '/onlineBank/static')
+            else:
+                logo = None
+
+            pages = MyFlatPage.objects.all()
+            #navbarContents = getNavBarContents(pages)
+            footerContents = getFooterContents(pages)
+            #removeUnneccessaryContents(navbarContents, request.user.is_authenticated)
+            page = {}
+            page["page_colour"] = "#FFFFFF"
+
+            navbarContents = []
+
+            transactions = transaction.objects.filter(account=userAccount)
+
+
+            args = {'navbarContents': navbarContents, 'footerContents': footerContents,
+                'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'userAccount': userAccount, 'flatpage': page, 'user': request.user, 'transactions': transactions}
+            
+            return render(request, 'statement.html', args)
+

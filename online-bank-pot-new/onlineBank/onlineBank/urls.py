@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path, re_path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 #from django.contrib.flatpages import views
-from .views import accounts
+from .views import accounts, statement
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('django.contrib.auth.urls')),
-    path('accounts/', accounts)
+    path('accounts/', accounts),
+    path('accounts/<str:accountNum>', statement)
 ]
 
 urlpatterns += staticfiles_urlpatterns()

@@ -13,8 +13,8 @@ from django.contrib.sites.admin import SiteAdmin
 #from django.cont import SiteForm
 from django.contrib.sites.models import Site
 
-from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile
-
+from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile, transaction
+from .transactionCreation import createBankStatement
 
 class ExtendedSiteForm(ModelForm):
     class Meta:
@@ -103,6 +103,11 @@ class logoAdmin(admin.ModelAdmin):
         (None, {'fields': ('name', 'file')}),
     )
 
+@admin.action(description='Populate Transactions for selected accounts')
+def populateTransactions(modeladmin, request, queryset):
+    for acc in queryset:
+        createBankStatement(acc)
+
 class accountForm(ModelForm):
     class Meta:
         model = account
@@ -113,6 +118,20 @@ class accountAdmin(admin.ModelAdmin):
     form = accountForm
     fieldsets = (
         (None, {'fields': ('accountNumber', 'accountOwner', 'accountName', 'accountBalance', 'accountSortCode')}),
+    )
+    actions = [populateTransactions]
+
+
+class transactionForm(ModelForm):
+    class Meta:
+        model = transaction
+        fields = '__all__'
+
+
+class transactionAdmin(admin.ModelAdmin):
+    form = transactionForm
+    fieldsets = (
+        (None, {'fields': ('account', 'otherAccountNumber', 'withdrawal', 'amount', 'date', 'reference', 'type', 'newBalance')}),
     )
 
 
@@ -127,3 +146,4 @@ admin.site.register(outerTemplate, outerTemplateAdmin)
 admin.site.register(staticFile, staticFileAdmin)
 admin.site.register(logo, logoAdmin)
 admin.site.register(account, accountAdmin)
+admin.site.register(transaction, transactionAdmin)
