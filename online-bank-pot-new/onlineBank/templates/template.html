@@ -16,48 +16,47 @@
     <link rel="icon" src="{% static logo %}">
     <title>{{ site.bankName }}</title>
   </head>
-  <body style="height: 100%;">
-    <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}};">
+  <body class="">
+    <div class="d-flex flex-column min-vh-100">
+      <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}};">
 
-      <nav class="navbar navbar-expand-lg navbar-light">
-        <a class="navbar-brand text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">
-          <img src="{% static logo %}" height="10%" width="10%" alt="">
-          {{ site.bankName }}
-        </a>
+        <nav class="navbar navbar-expand-lg navbar-light">
+          <a class="navbar-brand text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">
+            <img src="{% static logo %}" height="10%" width="10%" alt="">
+            {{ site.bankName }}
+          </a>
 
-        <div class="container justify-content-end">
-          <ul class="nav" id="navbar">
-          </ul>
+          <div class="container justify-content-end">
+            <ul class="nav" id="navbar">
+            </ul>
+          </div>
+        </nav>
+      </div>
+
+      <div class="fluid-container" style="background-color:{{site.margin_colour}};">
+        <div class="container col-centered p-100 min-vh-100" id="blockContent" style="background-color:{{flatpage.page_colour}};">
+          {% block content %}{% endblock %}
         </div>
-      </nav>
-
-
-    </div>
-    <div class="fluid-container h-100" style="background-color:{{site.margin_colour}};">
-      <div class="container col-centered p-100 h-100" id="blockContent" style="background-color:{{flatpage.page_colour}};">
-        {% block content %}{% endblock %}
       </div>
     </div>
-
     <script src="{% static 'js/createNavAndFooter.js' %}"></script>
 
-  </body>
-
-  <footer class="page-footer font-small text-white pt-4" style="background-color:{{site.footer_colour}};">
+  <footer class="footer mt-auto font-small text-white pt-4" style="background-color:{{site.footer_colour}};">
     <div class="container-fluid text-center text-md-left">
       <div class="row">
         <div class="col-md-6 mt-md-0 mt-3">
           <h5 class="text-uppercase">{{ site.bankName }}</h5>
           <p>Putting you in Control of your Finances</p>
-      </div>
-      <hr class="clearfix w-100 d-md-none pb-3">
-      <div class="col-md-6 mb-md-0 mb-3">
-        <h5 class="text-uppercase">Links</h5>
-        <ul class="list-unstyled" id="footer">
-        </ul>
+        </div>
+      
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <div class="col-md-6 mb-md-0 mb-3">
+          <h5 class="text-uppercase">Links</h5>
+          <ul class="list-unstyled" id="footer"></ul>
+        </div>
       </div>
     </div>
-  </div>
-</footer>
+  </footer>
 
+</body>
 </html>

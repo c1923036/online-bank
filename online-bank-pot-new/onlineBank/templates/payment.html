@@ -1,0 +1,95 @@
+{% extends outerTemplate %}
+{% load static %}
+
+{% block content %}{% autoescape off %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="col">
+        <div class="row">
+            <a class="navbar-brand pt-0"><b>Welcome {{user.first_name}} {{user.last_name}}</b></a>
+        </div>
+        <div class="row">
+            <small class="text-muted">Last logged in on {{user.last_login}}</small>
+        </div>
+    </div>
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-lg-flex align-items-center">
+        
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="/accounts/">Your Accounts</a>
+        </li>
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="#">Your Profile</a>
+        </li>
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="#">Help &amp; Contact Us</a>
+        </li>
+        <li class="nav-item active mx-1">
+            <a class="nav-link" href="#"><i class="bi bi-envelope-open-fill" style="font-size: 1.5rem; color: {{site.header_colour}};"></i></a>
+        </li>
+        <li class="nav-item active border-start">
+            <a class="nav-link" href="/logout">Log Off</a>
+        </li>
+
+    </ul>
+</nav>
+
+<div class="d-flex justify-content-center">
+    <form action="/payment/{{payingAccount.accountNumber}}" method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col">
+            <b>Available Funds: </b>
+            </div>
+            <div class="col">
+                <p> £{{payingAccount.accountBalance}}</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <label for="amount">Amount: </label>
+            </div>
+            <div class="col">
+                <input type="text" name="currency-field" id="currency-field" pattern="^\£\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="£1.00">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">                
+                <label for="sort-code">Payee Sort Code: </label>
+            </div>
+            <div class="col">
+                <p>
+                    <input class="sc" name="sort-code" id="sc" type="text" value="" style="display: none;">
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">                
+                <label for="accountNumber">Payee Account Number: </label>
+            </div>
+            <div class="col">
+                <input type="text" pattern="^(\d){8}$" inputmode="numeric" name="accountNumber">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">                
+                <label for="reference">Reference: </label>
+            </div>
+            <div class="col">
+                <input type="text" name="reference">
+            </div>
+        </div>
+        <input type="submit" value="OK">
+    </form>
+</div>
+
+
+<script type="text/javascript">$(document).ready(function() { $('.sc').sortCode({boxwidth:30}); });</script>
+    
+    <script>navbarContents = {{ navbarContents }}</script>
+    <script>footerContents = {{ footerContents }}</script>
+    
+    <script src="{% static 'js/jquery.sortcode.min.js' %}"></script>
+    <script src="{% static 'js/currencyValidation.js' %}"></script>
+
+{% endautoescape %}{% endblock %}
+

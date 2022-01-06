@@ -1,0 +1,62 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+     
+<head>
+    <title>UK Bank account sort code jQuery plugin</title>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.sortcode.min.js"></script>
+     
+    <script type="text/javascript">
+    $(document).ready(function() {
+        $('#sc').sortCode();
+        $('.sc').sortCode({boxwidth:22,debug:false});
+        $('.sc-db').sortCode({boxwidth:22,debug:true});
+    }); 
+    </script>
+<body>
+<h1>UK bank account sort code plugin</h1>
+<p>Simple jQuery plugin that extends a sort code field (normally 6 characters) to three 2 character fields which only allow numerics and auto-tab when completed.</p>
+<p>The plugin keeps your original underlying field intact and updated from user input. There is therefore no need for any rework to existing form handlers.</p>
+<p>It is free for use - please <a href="sort-code.zip">download</a> and host your own version, we provide no guarantee of availability on this site. This software is provided free and comes with absolutely NO WARRANTY.</p>
+<div>
+<h2>By id</h2>
+<p>No options passed - textboxes have default width of 20px</p>
+<code>
+    $(document).ready(function() {
+        $('#sc').sortCode();
+    });
+</code>
+<p><input id="sc" name="sort" id="sc" type="text" value=""></p>
+</div>
+
+<div>
+<h2>By class</h2>
+<p>Textboxes slightly widened with boxwidth property</p>
+<code>
+    $(document).ready(function() {
+        $('.sc').sortCode({boxwidth:22});
+    });
+</code>
+<p><input class="sc" name="sort-code" id="sc" type="text" value=""></p>
+<p><input class="sc" name="sort-code2" id="sc2" type="text" value="123456"></p>
+<p><input class="sc"  name="sort-code3" type="text" value="123456"></p>
+</div>
+
+<div>
+<h2>By class - debug on</h2>
+<code>
+    $(document).ready(function() {
+        $('.sc-db').sortCode({boxwidth:22,debug:true});
+    });
+</code>
+<p>Debug option reveals the underlying field so you can check it is being updated correctly. It also shows errors encountered at runtime (
+there are some deliberate errors in the html below to demonstrate).</p>
+<p><input class="sc-db" name="sort-code-db" id="sc" type="text" value="000000"></p>
+<p><input class="sc-db" name="sort-code-db2" id="sc2" type="text" value="123456"></p>
+<p><input class="sc-db" name="sort-code-db2" type="text" value="123456"></p>
+<p><input class="sc-db" name="sort-code-d id="sc" type="text" value="000000"></p>
+</div>
+ 
+</body>
+</html>
