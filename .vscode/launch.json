@@ -13,7 +13,7 @@
             "program": "${workspaceFolder}/onlineBank/manage.py",
             "args": [
                 "runserver",
-                "172.31.145.4:8000",
+                "172.31.153.38:8000",
             ],
             "django": true
         },

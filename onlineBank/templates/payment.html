@@ -34,9 +34,9 @@
 </nav>
 
 <div class="d-flex justify-content-center">
-    <form action="/payment/{{payingAccount.accountNumber}}" method="post">
+    <form class="needs-validation" action="/payment/{{payingAccount.accountNumber}}" method="post" novalidate>
         {% csrf_token %}
-        <div class="row">
+        <div class="row mt-5">
             <div class="col">
             <b>Available Funds: </b>
             </div>
@@ -44,41 +44,52 @@
                 <p> £{{payingAccount.accountBalance}}</p>
             </div>
         </div>
-        <div class="row">
+        <div class="row py-3">
             <div class="col">
                 <label for="amount">Amount: </label>
             </div>
             <div class="col">
-                <input type="text" name="currency-field" id="currency-field" pattern="^\£\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="£1.00">
+                <input class="form-control" type="text" name="currency-field" id="currency-field" pattern="^\£\d{1,3}(,\d{3})*(\.\d+)?$" value="" data-type="currency" placeholder="£1.00">
             </div>
         </div>
-        <div class="row">
+        <div class="row pb-3">
             <div class="col">                
                 <label for="sort-code">Payee Sort Code: </label>
             </div>
-            <div class="col">
-                <p>
-                    <input class="sc" name="sort-code" id="sc" type="text" value="" style="display: none;">
-                </p>
+            <div class="col pe-5">
+                <div class="form-row">
+                    <input class="sc" name="sort-code" id="sc" type="text" value="" style="display: none;" required>
+                </div>
+                    <div class="invalid-feedback">
+                    Please provide a valid sort code.
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">                
                 <label for="accountNumber">Payee Account Number: </label>
             </div>
-            <div class="col">
-                <input type="text" pattern="^(\d){8}$" inputmode="numeric" name="accountNumber">
+            <div class="col me-5 h-100">
+                <input class="form-control" type="text" pattern="^(\d){8}$" inputmode="numeric" name="accountNumber" required>
+                <div class="invalid-feedback">
+                    Please provide a valid account number.
+                </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row mb-3">
             <div class="col">                
                 <label for="reference">Reference: </label>
             </div>
-            <div class="col">
-                <input type="text" name="reference">
+            <div class="col pe-5">
+                <input class="form-control" type="text" name="reference" required>
+                <div class="invalid-feedback">
+                    Please provide a reference.
+                </div>
             </div>
         </div>
-        <input type="submit" value="OK">
+        <div class="row justify-content-center px-5">
+            <input class="btn" type="submit" value="Pay Now" style="background-color:{{site.header_colour}}; color: {{flatpage.page_colour}}">
+        </div>
     </form>
 </div>
 
@@ -90,6 +101,29 @@
     
     <script src="{% static 'js/jquery.sortcode.min.js' %}"></script>
     <script src="{% static 'js/currencyValidation.js' %}"></script>
+
+    
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+        </script>
+
 
 {% endautoescape %}{% endblock %}
 
