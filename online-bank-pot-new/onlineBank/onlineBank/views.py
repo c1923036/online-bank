@@ -7,44 +7,8 @@ import os
 from datetime import datetime
 
 
-#def login(request):
-#    if request.method == 'POST':
-#        username = request.POST['username']
-#        password = request.POST['password']
-#        user = authenticate(request, username=username, password=password)
-#        if user is not None:
-#            login(request, user)
-#            redirect('/accounts/')
-#    elif request.method == 'GET':
-#        sites = MySite.objects.all()
-#        requestSite = request._get_raw_host()
-#        for site in sites:
-#            if site.domain == requestSite:
-#                currentSite = site
-#        if currentSite == None:
-#            return
-#        if site.template != None:
-#            outerTemplate = site.template.file.path
-#        else:
-#            outerTemplate = "template.html"
-#        if site.logo != None:
-#            logo = os.path.relpath(
-#                site.logo.file.url, '/onlineBank/static')
-#        else:
-#            logo = None
-#        
-#        pages = MyFlatPage.objects.all()
-#        navbarContents = getNavBarContents(pages)
-#        footerContents = getFooterContents(pages)
-#
-#        args = {'navbarContents': navbarContents, 'footerContents': footerContents,
-#                'site': site, 'outerTemplate': outerTemplate, 'logo': logo}
-#
-#        return render(request, 'login.html', args)
-
-
 def accounts(request):
-    
+    """Returns the accounts page"""
     if request.user.is_authenticated == True:
         
         sites = MySite.objects.all()
@@ -91,9 +55,10 @@ def accounts(request):
 
 
 def statement(request, accountNum):
-    if request.user.is_authenticated == True:
+    """Returns the bank statement for the selected account"""
+    if request.user.is_authenticated == True:  #Checks the user is appropriately authenticated.
         userAccount = account.objects.get(accountNumber=accountNum)
-        if userAccount.accountOwner == request.user:
+        if userAccount.accountOwner == request.user:  #Checks the account number belongs to the authenticated user.
             
             sites = MySite.objects.all()
             requestSite = request._get_raw_host()
@@ -123,7 +88,7 @@ def statement(request, accountNum):
 
             transactions = transaction.objects.filter(account=userAccount)
             transactions = list(transactions)
-            transactions = sorted(transactions, key=lambda d: d.date)
+            transactions = sorted(transactions, key=lambda d: d.date)  #Sorts transactions by date.
             transactions.reverse()
             args = {'navbarContents': navbarContents, 'footerContents': footerContents,
                 'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'userAccount': userAccount, 'flatpage': page, 'user': request.user, 'transactions': transactions}
@@ -134,10 +99,11 @@ def statement(request, accountNum):
 
 
 def transfer(request, accountNum):
-    if request.user.is_authenticated == True:
+    """Returns the user a form to make a transfer between a users accounts and then handles form submission"""
+    if request.user.is_authenticated == True:  #Checks user is authenticated.
         userAccount = account.objects.get(accountNumber=accountNum)
-        if userAccount.accountOwner == request.user:
-            if request.method == 'GET':
+        if userAccount.accountOwner == request.user:  #Checks account belongs to authenticated user.
+            if request.method == 'GET':  #If GET request returns the render of the form.
                 sites = MySite.objects.all()
                 requestSite = request._get_raw_host()
                 for site in sites:
@@ -176,32 +142,30 @@ def transfer(request, accountNum):
                 
                 return render(request, 'transfer.html', args)
             
-            elif request.method == "POST":
-                if request.user.is_authenticated == True:
-                    userAccount = account.objects.get(accountNumber=accountNum)
-                    if userAccount.accountOwner == request.user:
-                        amount = float(request.POST['currency-field'][1:].replace(',', ''))
-                        transfer = transaction.objects.create(account=userAccount, otherAccountNumber=request.POST['destination'], withdrawal=True, amount=amount, date=datetime.today(), reference="Internal Transfer", type="BACS", newBalance=float(userAccount.accountBalance) - amount)
-                        transfer.save()
-                        userAccount.accountBalance = float(userAccount.accountBalance) - amount
-                        userAccount.save()
+            elif request.method == "POST":  #If POST request handles input data and inserts to the database.
+                amount = float(request.POST['currency-field'][1:].replace(',', ''))
+                transfer = transaction.objects.create(account=userAccount, otherAccountNumber=request.POST['destination'], withdrawal=True, amount=amount, date=datetime.today(), reference="Internal Transfer", type="BACS", newBalance=float(userAccount.accountBalance) - amount)
+                transfer.save()  #Saves created transaction data object.
+                userAccount.accountBalance = float(userAccount.accountBalance) - amount
+                userAccount.save()  #Saves users account with updated balance.
 
-                        recipientAccount = account.objects.get(accountNumber=request.POST['destination'])
-                        recipientAccount.accountBalance = float(recipientAccount.accountBalance) + amount
-                        recipientAccount.save()
-                        recipientTransaction = transaction.objects.create(account=recipientAccount, otherAccountNumber=userAccount.accountNumber, withdrawal=False, amount=amount, date=datetime.today(), reference="Internal Transfer", type="BACS", newBalance=float(recipientAccount.accountBalance) + amount)
-                        recipientTransaction.save()
+                recipientAccount = account.objects.get(accountNumber=request.POST['destination'])  
+                recipientAccount.accountBalance = float(recipientAccount.accountBalance) + amount  #Updates the recipient account balance.
+                recipientAccount.save()
+                recipientTransaction = transaction.objects.create(account=recipientAccount, otherAccountNumber=userAccount.accountNumber, withdrawal=False, amount=amount, date=datetime.today(), reference="Internal Transfer", type="BACS", newBalance=float(recipientAccount.accountBalance) + amount)
+                recipientTransaction.save()  #Adds a transaction object belonging to the recipient.
 
-                        return redirect('/accounts/')
+                return redirect('/accounts/')  #Returns the user back to the accounts page.
         
     else:
-        return redirect('/login/')
+        return redirect('/login/')  #If not authenticated user is returned to the log in page.
 
 def payment(request, accountNum):
-    if request.user.is_authenticated == True:
+    """Returns the user a form to make a transfer between a users accounts and then handles form submission"""
+    if request.user.is_authenticated == True:  #If user is authenticated.
         userAccount = account.objects.get(accountNumber=accountNum)
-        if userAccount.accountOwner == request.user:
-            if request.method == 'GET':
+        if userAccount.accountOwner == request.user:  #Checks account belongs to authenticated user.
+            if request.method == 'GET':  #If GET request returns the render of the form.
                 sites = MySite.objects.all()
                 requestSite = request._get_raw_host()
                 for site in sites:
@@ -240,17 +204,14 @@ def payment(request, accountNum):
                 
                 return render(request, 'payment.html', args)
             
-            elif request.method == "POST":
-                if request.user.is_authenticated == True:
-                    userAccount = account.objects.get(accountNumber=accountNum)
-                    if userAccount.accountOwner == request.user:
-                        amount = float(request.POST['currency-field'][1:].replace(',', ''))
-                        transfer = transaction.objects.create(account=userAccount, otherAccountNumber=request.POST['accountNumber'], withdrawal=True, amount=amount, date=datetime.today(), reference=request.POST["reference"], type="BACS", newBalance=float(userAccount.accountBalance) - amount)
-                        transfer.save()
-                        userAccount.accountBalance = float(userAccount.accountBalance) - amount
-                        userAccount.save()
+            elif request.method == "POST":  #If a POST request.
+                amount = float(request.POST['currency-field'][1:].replace(',', ''))
+                transfer = transaction.objects.create(account=userAccount, otherAccountNumber=request.POST['accountNumber'], withdrawal=True, amount=amount, date=datetime.today(), reference=request.POST["reference"], type="BACS", newBalance=float(userAccount.accountBalance) - amount)
+                transfer.save()  #Saves transaction object.
+                userAccount.accountBalance = float(userAccount.accountBalance) - amount
+                userAccount.save()  #Saves new account balance.
 
-                        return redirect('/accounts/')
+                return redirect('/accounts/')  #Returns user back to the accounts page
         
     else:
         return redirect('/login/')
