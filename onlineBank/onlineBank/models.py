@@ -70,3 +70,6 @@ class transaction(models.Model):
     type = models.CharField(max_length=10, default="")
     newBalance = models.DecimalField(max_digits=10, decimal_places=2)
 
+class ip(models.Model):
+    ip = models.CharField(max_length=15)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)

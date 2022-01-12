@@ -13,7 +13,7 @@ from django.contrib.sites.admin import SiteAdmin
 #from django.cont import SiteForm
 from django.contrib.sites.models import Site
 
-from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile, transaction
+from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile, transaction, ip
 from .transactionCreation import createBankStatement
 
 class ExtendedSiteForm(ModelForm):
@@ -135,6 +135,19 @@ class transactionAdmin(admin.ModelAdmin):
     )
 
 
+class ipForm(ModelForm):
+    class Meta:
+        model = ip
+        fields = '__all__'
+
+
+class ipAdmin(admin.ModelAdmin):
+    form = ipForm
+    fieldsets = (
+        (None, {'fields': ('ip', 'user')}),
+    )
+
+
 admin.site.unregister(Site)
 admin.site.register(MySite, ExtendedSiteAdmin)
 
@@ -147,3 +160,4 @@ admin.site.register(staticFile, staticFileAdmin)
 admin.site.register(logo, logoAdmin)
 admin.site.register(account, accountAdmin)
 admin.site.register(transaction, transactionAdmin)
+admin.site.register(ip, ipAdmin)

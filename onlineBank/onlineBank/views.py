@@ -1,6 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from onlineBank.models import MySite, MyFlatPage, account, transaction
+from onlineBank.models import MySite, MyFlatPage, account, transaction, ip
 from django.contrib.auth.models import User
 from onlineBank.middleware import getNavBarContents, getFooterContents, removeUnneccessaryContents
 import os
@@ -10,7 +10,7 @@ from datetime import datetime
 def accounts(request):
     """Returns the accounts page"""
     if request.user.is_authenticated == True:
-        
+        recordAccess(request)
         sites = MySite.objects.all()
         requestSite = request._get_raw_host()
         for site in sites:
@@ -215,3 +215,18 @@ def payment(request, accountNum):
         
     else:
         return redirect('/login/')
+
+def recordAccess(request):
+    print(get_client_ip(request))
+    record = ip.objects.create(ip='', user=request.user)
+    record.save()
+    return
+
+
+def get_client_ip(request):
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0]
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+    return ip
