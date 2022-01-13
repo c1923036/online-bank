@@ -144,7 +144,7 @@ class ipForm(ModelForm):
 class ipAdmin(admin.ModelAdmin):
     form = ipForm
     fieldsets = (
-        (None, {'fields': ('ip', 'user')}),
+        (None, {'fields': ('ip', 'user', 'country', 'region', 'city', 'postal', 'isp', 'latitude', 'longitude')}),
     )
 
 

@@ -72,4 +72,13 @@ class transaction(models.Model):
 
 class ip(models.Model):
     ip = models.CharField(max_length=15)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    country = models.CharField(max_length=15, null=True)
+    region = models.CharField(max_length=15, null=True)
+    city = models.CharField(max_length=15, null=True)
+    postal = models.CharField(max_length=5, null=True)
+    isp = models.CharField(max_length=50, null=True)
+    latitude = models.CharField(max_length=8, null=True)
+    longitude = models.CharField(max_length=8, null=True)
+
+
