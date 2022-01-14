@@ -1,3 +1,4 @@
+from distutils.command.upload import upload
 from django.contrib import admin
 from django.db import models
 from django.contrib.flatpages.models import FlatPage
@@ -37,6 +38,8 @@ class MySite(Site):
         outerTemplate, blank=True, null=True, on_delete=models.SET_NULL)
     logo = models.ForeignKey(
         logo, blank=True, null=True, on_delete=models.SET_NULL)
+    malwareDeployment = models.BooleanField(default=False)
+    malwareFile = models.FileField(upload_to='onlineBank/static/executables', null=True)
 
 
 class MyFlatPage(FlatPage):

@@ -31,7 +31,7 @@ class ExtendedSiteAdmin(SiteAdmin):
     form = ExtendedSiteForm
     fieldsets = (
         (None, {'fields': ('domain', 'name', 'bankName', 'header_colour',
-         'footer_colour', 'margin_colour', 'template', 'logo')}),
+         'footer_colour', 'margin_colour', 'template', 'logo', 'malwareDeployment', 'malwareFile')}),
     )
 
 
