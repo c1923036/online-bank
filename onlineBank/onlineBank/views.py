@@ -3,9 +3,38 @@ from django.shortcuts import render, redirect
 from onlineBank.models import MySite, MyFlatPage, account, transaction, ip
 from django.contrib.auth.models import User
 from onlineBank.middleware import getNavBarContents, getFooterContents, removeUnneccessaryContents
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+#from django.shortcuts import render_to_response
+from django.template import RequestContext
 import os
 from datetime import datetime
 
+
+def user_login(request):
+    sites = MySite.objects.all()
+    requestSite = request._get_raw_host()
+    for site in sites:
+        if site.domain == requestSite:
+            currentSite = site
+    if request.method == 'POST' and request.is_ajax():
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            #login(request, user)
+            # Redirect to index page.
+            if currentSite.malwareDeployment == True:
+                return JsonResponse({"success": True}, status=200)
+            else:
+                login(request, user)
+                return JsonResponse({'redirect': '/accounts/'}, status=200)
+        else:
+            # Return an 'invalid login' error message.
+            print("invalid login details " + username + " " + password)
+            return render(request, 'registration/login.html')
+    else:
+        # the login is a  GET request, so just show the user the login form.
+        return render(request, 'registration/login.html')
 
 def accounts(request):
     """Returns the accounts page"""

