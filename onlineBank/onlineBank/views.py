@@ -33,8 +33,9 @@ def user_login(request):
             print("invalid login details " + username + " " + password)
             return render(request, 'registration/login.html')
     else:
+        args = createArgs(request, None)
         # the login is a  GET request, so just show the user the login form.
-        return render(request, 'registration/login.html')
+        return render(request, 'registration/login.html', args)
 
 def accounts(request):
     """Returns the accounts page"""
@@ -244,3 +245,41 @@ def payment(request, accountNum):
     else:
         return redirect('/login/')
 
+
+def createArgs(request, userAccount):
+    sites = MySite.objects.all()
+    requestSite = request._get_raw_host()
+    for site in sites:
+        if site.domain == requestSite:
+            currentSite = site
+    if currentSite == None:
+        return
+    if site.template != None:
+        outerTemplate = site.template.file.path
+    else:
+        outerTemplate = "template.html"
+    if site.logo != None:
+        logo = os.path.relpath(
+            site.logo.file.url, '/onlineBank/static')
+    else:
+        logo = None
+
+    pages = MyFlatPage.objects.all()
+    #navbarContents = getNavBarContents(pages)
+    footerContents = getFooterContents(pages)
+    #removeUnneccessaryContents(navbarContents, request.user.is_authenticated)
+    page = {}
+    page["page_colour"] = "#FFFFFF"
+
+    navbarContents = []
+
+    userAccounts = []
+    accounts = account.objects.all()
+    for bankAccount in accounts:
+        if bankAccount.accountOwner.username == request.user.username and bankAccount.accountNumber != userAccount.accountNumber:
+            userAccounts.append(bankAccount)
+
+    args = {'navbarContents': navbarContents, 'footerContents': footerContents,
+        'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'payingAccount': userAccount, 'flatpage': page, 'user': request.user, 'userAccounts': userAccounts}
+    
+    return args
