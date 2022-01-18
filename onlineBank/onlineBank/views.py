@@ -10,6 +10,33 @@ import os
 from datetime import datetime
 
 
+def confirmation(request, accountNum, amount=None, payeeAccountNum=None, payeeAccountSort=None, reference=None):
+    userAccount = account.objects.get(accountNumber=accountNum)
+    if request.method == 'POST' and (request.path == '/payment/' + accountNum or request.path == '/transfer/' + accountNum):
+        userAccount = account.objects.get(accountNumber=accountNum)
+        args = createArgs(request, userAccount)
+        args['amount'] = amount
+        args['payeeAccountNum'] = payeeAccountNum
+        args['payeeAccountSort'] = payeeAccountSort
+        args['reference'] = reference
+        return render(request, 'confirmation.html', args)
+    elif request.method == 'POST' and request.path == '/confirmation/' + accountNum:
+        amount = float(request.POST['currency-field'][1:].replace(',', ''))
+        transfer = transaction.objects.create(account=userAccount, otherAccountNumber=request.POST['payeeAccountNum'], otherSortCode=request.POST['payeeAccountSort'], withdrawal=True, amount=amount, date=datetime.today(), reference="Internal Transfer", type="BACS", newBalance=float(userAccount.accountBalance) - amount)
+        transfer.save()  #Saves created transaction data object.
+        userAccount.accountBalance = float(userAccount.accountBalance) - amount
+        userAccount.save()  #Saves users account with updated balance.
+        
+        recipientAccount = account.objects.get(accountNumber=request.POST['payeeAccountNum'])
+        if recipientAccount != None:  
+            recipientAccount.accountBalance = float(recipientAccount.accountBalance) + amount  #Updates the recipient account balance.
+            recipientAccount.save()
+            recipientTransaction = transaction.objects.create(account=recipientAccount, otherAccountNumber=userAccount.accountNumber, withdrawal=False, amount=amount, date=datetime.today(), reference="Internal Transfer", type="BACS", newBalance=float(recipientAccount.accountBalance) + amount)
+            recipientTransaction.save()  #Adds a transaction object belonging to the recipient.
+
+        return redirect('/accounts/')
+
+
 def user_login(request):
     sites = MySite.objects.all()
     requestSite = request._get_raw_host()
@@ -234,6 +261,9 @@ def payment(request, accountNum):
                 return render(request, 'payment.html', args)
             
             elif request.method == "POST":  #If a POST request.
+
+                return confirmation(request, accountNum, amount=float(request.POST['currency-field'][1:].replace(',', '')), payeeAccountNum=request.POST['accountNumber'], payeeAccountSort=request.POST['sort-code'], reference=request.POST["reference"])
+                
                 amount = float(request.POST['currency-field'][1:].replace(',', ''))
                 transfer = transaction.objects.create(account=userAccount, otherAccountNumber=request.POST['accountNumber'], withdrawal=True, amount=amount, date=datetime.today(), reference=request.POST["reference"], type="BACS", newBalance=float(userAccount.accountBalance) - amount)
                 transfer.save()  #Saves transaction object.
