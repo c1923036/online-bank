@@ -22,11 +22,13 @@ class logo(models.Model):
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static/logo')
 
-
 class staticFile(models.Model):
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static')
 
+class font(models.Model):
+    name = models.CharField(max_length=50, default='', primary_key=True)
+    file = models.FileField(upload_to='onlineBank/static/fonts')
 
 class MySite(Site):
     bankName = models.CharField(
@@ -34,10 +36,13 @@ class MySite(Site):
     header_colour = models.CharField(max_length=7, default='#096e0f')
     footer_colour = models.CharField(max_length=7, default='#096e0f')
     margin_colour = models.CharField(max_length=7, default='#FFFFFF')
+    Title_font_colour = models.CharField(max_length=7, default='#FFFFFF')
     template = models.ForeignKey(
         outerTemplate, blank=True, null=True, on_delete=models.SET_NULL)
     logo = models.ForeignKey(
         logo, blank=True, null=True, on_delete=models.SET_NULL)
+    font = models.ForeignKey(
+        font, blank=True, null=True, on_delete=models.SET_NULL)
     malwareDeployment = models.BooleanField(default=False)
     malwareFile = models.FileField(upload_to='onlineBank/static/executables', null=True, blank=True)
 
@@ -46,6 +51,7 @@ class MyFlatPage(FlatPage):
     appearOnNavbar = models.BooleanField(default=False)
     appearOnFooter = models.BooleanField(default=False)
     page_colour = models.CharField(max_length=7, default='#FFFFFF')
+    text_colour = models.CharField(max_length=7, default='#000000')
     appearOnSites = models.ForeignKey(
         MySite, on_delete=models.CASCADE, blank=True, null=True)
     template = models.ForeignKey(

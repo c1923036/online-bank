@@ -13,7 +13,7 @@ from django.contrib.sites.admin import SiteAdmin
 #from django.cont import SiteForm
 from django.contrib.sites.models import Site
 
-from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile, transaction, ip
+from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile, transaction, ip, font
 from .transactionCreation import createBankStatement
 
 class ExtendedSiteForm(ModelForm):
@@ -24,6 +24,7 @@ class ExtendedSiteForm(ModelForm):
             'header_colour': TextInput(attrs={'type': 'color'}),
             'footer_colour': TextInput(attrs={'type': 'color'}),
             'margin_colour': TextInput(attrs={'type': 'color'}),
+            'Title_font_colour': TextInput(attrs={'type': 'color'}),
         }
 
 
@@ -31,7 +32,7 @@ class ExtendedSiteAdmin(SiteAdmin):
     form = ExtendedSiteForm
     fieldsets = (
         (None, {'fields': ('domain', 'name', 'bankName', 'header_colour',
-         'footer_colour', 'margin_colour', 'template', 'logo', 'malwareDeployment', 'malwareFile')}),
+         'footer_colour', 'margin_colour', 'Title_font_colour', 'template', 'logo', 'font', 'malwareDeployment', 'malwareFile')}),
     )
 
 
@@ -41,6 +42,7 @@ class ExtendedFlatPageForm(FlatpageForm):
         fields = '__all__'
         widgets = {
             'page_colour': TextInput(attrs={'type': 'color'}),
+            'text_colour': TextInput(attrs={'type': 'color'}),
         }
 
 
@@ -48,7 +50,7 @@ class ExtendedFlatPageAdmin(FlatPageAdmin):
     form = ExtendedFlatPageForm
     fieldsets = (
         (None, {'fields': ('url', 'title', 'content', 'appearOnSites', 'registration_required',
-         'appearOnNavbar', 'appearOnFooter', 'page_colour', 'template')}),
+         'appearOnNavbar', 'appearOnFooter', 'page_colour', 'text_colour', 'template')}),
     )
 
 
@@ -86,6 +88,18 @@ class staticFileForm(ModelForm):
 
 class staticFileAdmin(admin.ModelAdmin):
     form = staticFileForm
+    fieldsets = (
+        (None, {'fields': ('name', 'file')}),
+    )
+
+class fontForm(ModelForm):
+    class Meta:
+        model = font
+        fields = '__all__'
+
+
+class fontAdmin(admin.ModelAdmin):
+    form = fontForm
     fieldsets = (
         (None, {'fields': ('name', 'file')}),
     )
@@ -161,3 +175,4 @@ admin.site.register(logo, logoAdmin)
 admin.site.register(account, accountAdmin)
 admin.site.register(transaction, transactionAdmin)
 admin.site.register(ip, ipAdmin)
+admin.site.register(font, fontAdmin)

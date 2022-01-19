@@ -36,13 +36,19 @@ class myFlatpages:
                     else:
                         logo = None
 
+                    if site.font != None:
+                        font = os.path.relpath(
+                            site.font.file.url, '/onlineBank/static')
+                        font = font.replace('.zip', '')
+                        font += '-regular'
+
                     navbarContents = getNavBarContents(pages)  #Returns the names and links to feature on the navbar.
                     footerContents = getFooterContents(pages)  #Returns the names and links to feature on the footer.
 
                     navbarContents = removeUnneccessaryContents(navbarContents, request.user.is_authenticated)  #Removes login or logout when the user is logged in or logged out respectively.
 
                     args = {'flatpage': page, 'navbarContents': navbarContents, 'footerContents': footerContents,
-                            'site': site, 'outerTemplate': outerTemplate, 'logo': logo}  #Constructs arguments dictionary to be passed
+                            'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'font': font}  #Constructs arguments dictionary to be passed
                     response = render(request, innerTemplate, args)
         return response
 

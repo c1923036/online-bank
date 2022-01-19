@@ -18,10 +18,10 @@
   </head>
   <body class="">
     <div class="d-flex flex-column min-vh-100">
-      <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}};">
+      <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}}; font-family:{{ site.font_id }};">
 
         <nav class="navbar navbar-expand-lg navbar-light">
-          <a class="navbar-brand text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">
+          <a class="navbar-brand text-center font-weight-bold font-family-sans-serif" style="font-size: 54px; color:{{ site.Title_font_colour }};">
             <img src="{% static logo %}" height="10%" width="10%" alt="">
             {{ site.bankName }}
           </a>
@@ -34,7 +34,7 @@
       </div>
 
       <div class="fluid-container" style="background-color:{{site.margin_colour}};">
-        <div class="container col-centered p-100 min-vh-100" id="blockContent" style="background-color:{{flatpage.page_colour}};">
+        <div class="container col-centered p-100 min-vh-100" id="blockContent" style="background-color:{{flatpage.page_colour}}; color:{{ flatpage.text_colour }}; font-family:{{ site.font_id }};">
           {% block content %}{% endblock %}
         </div>
       </div>
@@ -59,4 +59,18 @@
   </footer>
 
 </body>
+
+<style>
+  @font-face {
+    font-family: "{{ site.font_id }}";
+    src: url("{% static font %}.eot"));
+    src: url("{% static font %}.eot?#iefix") format('embedded-opentype'),
+         url("{% static font %}.woff2") format('woff2'),
+         url("{% static font %}.woff") format('woff'),
+         url("{% static font %}.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+</style>
+
 </html>
