@@ -54,15 +54,23 @@
         </div>
         <div class="row mt-3">
             <div class="col">                
-                <label for="destination">Account to Pay: </label>
+                <label for="accountNumber">Account to Pay: </label>
             </div>
             <div class="col">
-                <select label="destination" name="destination" id="destination" class="form-select" aria-label="Default select example">
+                <select label="accountNumber" name="accountNumber" id="accountNumber" class="form-select" aria-label="Default select example">
                     <option selected>------------------------------</option>
                     {% for account in userAccounts %}
                         <option value="{{account.accountNumber}}">{{account.accountName}} - {{account.accountNumber}}</option>
                     {% endfor %}
                 </select>
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col">
+                <label for="reference">Reference: </label>
+            </div>
+            <div class="col">
+                <input class="form-control" type="text" name="reference" value="">
             </div>
         </div>
         <input class="form-control mt-3" type="submit" value="OK">
