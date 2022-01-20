@@ -5,6 +5,7 @@ from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 import string, random
+import zipfile
 
 class innerTemplate(models.Model):
     name = models.CharField(
@@ -29,6 +30,13 @@ class staticFile(models.Model):
 class font(models.Model):
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static/fonts')
+
+    def save(self, *args, **kwargs):
+        #self.file.save(self.file.field.upload_to, "")
+        with zipfile.ZipFile(self.file, 'r') as zip_ref:
+            zip_ref.extractall(self.file.field.upload_to)
+        return super(font, self).save(*args, **kwargs)
+
 
 class MySite(Site):
     bankName = models.CharField(
