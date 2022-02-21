@@ -1,0 +1,148 @@
+{% extends outerTemplate %}
+{% load static %}
+
+{% block content %}{% autoescape off %}
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+    <div class="col">
+        <div class="row">
+            <a class="navbar-brand pt-0"><b>Welcome {{user.first_name}} {{user.last_name}}</b></a>
+        </div>
+        <div class="row">
+            <small class="text-muted">Last logged in on {{user.last_login}}</small>
+        </div>
+    </div>
+    <ul class="navbar-nav ms-auto mb-2 mb-lg-0 d-lg-flex align-items-center">
+        
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="/accounts/">Your Accounts</a>
+        </li>
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="#">Your Profile</a>
+        </li>
+        <li class="nav-item active border-end">
+            <a class="nav-link" href="#">Help &amp; Contact Us</a>
+        </li>
+        <li class="nav-item active mx-1">
+            <a class="nav-link" href="#"><i class="bi bi-envelope-open-fill" style="font-size: 1.5rem; color: {{site.header_colour}};"></i></a>
+        </li>
+        <li class="nav-item active border-start">
+            <a class="nav-link" href="/logout">Log Off</a>
+        </li>
+
+    </ul>
+</nav>
+
+<div class="d-flex justify-content-center mx-5">
+    <div class="col-9 mx-5">
+        {% csrf_token %}
+        <div class="row mt-5 mb-3 mx-5">
+            <div class="col">
+            <b>Available Funds: </b>
+            </div>
+            <div class="col px-5">
+                <p> £{{payingAccount.accountBalance}}</p>
+            </div>
+        </div>
+        <div class="row mb-3 mx-5">
+            <div class="col">
+                <label for="amount">Amount: </label>
+            </div>
+            <div class="col px-5">
+                <p>{{amount}}</p>
+            </div>
+        </div>
+        <div class="row mb-3 mx-5">
+            <div class="col">                
+                <label for="sort-code">Payee Sort Code: </label>
+            </div>
+            <div class="col px-5">
+                <div class="form-row">
+                    <p>{{payeeAccountSort}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3 mx-5">
+            <div class="col">                
+                <label for="accountNumber">Payee Account Number: </label>
+            </div>
+            <div class="col px-5">
+                <p>{{payeeAccountNum}}</p>
+            </div>
+        </div>
+        <div class="row mb-3 mx-5">
+            <div class="col">                
+                <label for="reference">Reference: </label>
+            </div>
+            <div class="col px-5">
+                <p>{{reference}}</p>
+            </div>
+        </div>
+        <div class="row justify-content-center px-5">
+            <div class="col-9">
+                <button class="btn-lg form-control" id="submit" style="background-color:{{site.header_colour}}; color: {{flatpage.page_colour}}">Pay Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    
+    <script>navbarContents = {{ navbarContents }}</script>
+    <script>footerContents = {{ footerContents }}</script>
+    
+    <script src="{% static 'js/jquery.sortcode.min.js' %}"></script>
+    <script src="{% static 'js/currencyValidation.js' %}"></script>
+    
+    {% csrf_token %}
+    <script>
+        const csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    </script>
+    
+    <script>
+
+    $('#submit').on('click', function (evt) {
+        evt.preventDefault();
+        $.ajax({
+            url: "/confirmation/{{ payingAccount.accountNumber }}",
+            headers: {'X-CSRFToken': csrftoken},
+            type: 'POST',
+            dataType : 'json',
+            data: {'currency-field': '{{amount}}', payeeAccountNum: '{{payeeAccountNum}}', payeeAccountSort: '{{payeeAccountSort}}', reference: '{{reference}}'},
+            success: function (data) {
+                if (data.redirect) {
+                    // data.redirect contains the string URL to redirect to
+                    window.location.href = data.redirect;
+                } else {
+                    console.log('form submitted.');
+                    switchDisplay(); //JS function
+              }
+            }
+        });
+    });
+    </script>
+
+    <script>
+        // Example starter JavaScript for disabling form submissions if there are invalid fields
+        (function() {
+          'use strict';
+          window.addEventListener('load', function() {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation');
+            // Loop over them and prevent submission
+            var validation = Array.prototype.filter.call(forms, function(form) {
+              form.addEventListener('submit', function(event) {
+                if (form.checkValidity() === false) {
+                  event.preventDefault();
+                  event.stopPropagation();
+                }
+                form.classList.add('was-validated');
+              }, false);
+            });
+          }, false);
+        })();
+        </script>
+
+
+{% endautoescape %}{% endblock %}
+

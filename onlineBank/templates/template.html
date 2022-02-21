@@ -16,30 +16,39 @@
     <link rel="icon" src="{% static logo %}">
     <title>{{ site.bankName }}</title>
   </head>
-  <body class="">
+  <body class="" onload="createNav()">
     <div class="d-flex flex-column min-vh-100">
-      <div class="jumbotron margin h-15" style="background-color:{{site.header_colour}};">
 
-        <nav class="navbar navbar-expand-lg navbar-light">
-          <a class="navbar-brand text-white text-center font-weight-bold font-family-sans-serif" style="font-size: 54px">
-            <img src="{% static logo %}" height="10%" width="10%" alt="">
-            {{ site.bankName }}
-          </a>
-
-          <div class="container justify-content-end">
-            <ul class="nav" id="navbar">
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-light mh-10" style="background-color:{{site.header_colour}}; font-family:{{ site.font_id }};">
+          <div class="row">
+            <div class="col-md-6 col">
+              <a class="navbar-brand font-weight-bold font-family-sans-serif my-auto" style="color:{{ site.Title_font_colour }};">
+                <div class="row">
+                  <div class="col-2 col-md-1"><img class="img-fluid" src="{% static logo %}" alt=""></div>
+                  <div class="col-10 my-auto d-none d-lg-block"><h1>{{ site.bankName }}</h1></div>
+                  <div class="col-8 my-auto d-md-none"><p>{{ site.bankName }}</p></div>
+                  <button class="navbar-toggler col-2" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                </div>
+              </a>
+            </div>
+            <div class="col-md-6 col-6">
+              <div class="collapse navbar-collapse justify-content-end" id="navbarTogglerDemo02">
+                <ul class="navbar-nav" id="navbar" style="color:{{ site.Title_font_colour }};">
+                </ul>
+              </div>
+            </div>
           </div>
         </nav>
-      </div>
 
       <div class="fluid-container" style="background-color:{{site.margin_colour}};">
-        <div class="container col-centered p-100 min-vh-100" id="blockContent" style="background-color:{{flatpage.page_colour}};">
+        <div class="container col-centered p-100 min-vh-100" id="blockContent" style="background-color:{{flatpage.page_colour}}; color:{{ flatpage.text_colour }}; font-family:{{ site.font_id }};">
           {% block content %}{% endblock %}
         </div>
       </div>
     </div>
-    <script src="{% static 'js/createNavAndFooter.js' %}"></script>
+    <script src="{% static 'js/createNavAndFooter.js' %}" font_colour="{{ site.Title_font_colour }}"></script>
 
   <footer class="footer mt-auto font-small text-white pt-4" style="background-color:{{site.footer_colour}};">
     <div class="container-fluid text-center text-md-left">
@@ -59,4 +68,18 @@
   </footer>
 
 </body>
+
+<style>
+  @font-face {
+    font-family: "{{ site.font_id }}";
+    src: url("{% static font %}.eot"));
+    src: url("{% static font %}.eot?#iefix") format('embedded-opentype'),
+         url("{% static font %}.woff2") format('woff2'),
+         url("{% static font %}.woff") format('woff'),
+         url("{% static font %}.ttf") format('truetype');
+    font-weight: 400;
+    font-style: normal;
+}
+</style>
+
 </html>

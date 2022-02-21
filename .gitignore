@@ -1,4 +1,5 @@
 .vscode
+eb-virt
 core/static/test.png
 core/static/core/test.png
 core/static/node_modules

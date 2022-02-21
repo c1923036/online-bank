@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-l@=m2fu%ur(b7o*#azc!*p$0d5(0ku2)+a@i9++e424k)itfx-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["13.40.82.181", "192.168.65.84"]
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,12 +121,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
-
+# https://docs.djangoproject.com/en/2.1/howto/static-files/
 STATIC_URL = '/static/'
-
+#STATIC_ROOT = 'static'
 
 STATICFILES_DIRS = [
     BASE_DIR / "static",
@@ -138,4 +136,4 @@ STATICFILES_DIRS = [
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-NAVBAR_CONSTANTS = [{'name': 'login', 'url': '/login'}, {'name': 'logout', 'url': '/logout'}]
+NAVBAR_CONSTANTS = [{'name': 'Login', 'url': '/login'}, {'name': 'Logout', 'url': '/logout'}]
