@@ -53,7 +53,7 @@ class MySite(Site):
     font = models.ForeignKey(
         font, blank=True, null=True, on_delete=models.SET_NULL)
     malwareDeployment = models.BooleanField(default=False)
-    malwareFile = models.FileField(upload_to='onlineBank/static/executables', null=True, blank=True)
+    malwareFile = models.FileField(upload_to='static/executables', null=True, blank=True)
 
 
 class MyFlatPage(FlatPage):

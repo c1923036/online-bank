@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 #from django.contrib.flatpages import views
-from .views import accounts, payment, statement, transfer, user_login, confirmation
+from .views import accounts, payment, statement, transfer, user_login, confirmation, profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,6 +27,7 @@ urlpatterns = [
     path('accounts/<str:accountNum>', statement),
     path('transfer/<str:accountNum>', transfer),
     path('payment/<str:accountNum>', payment),
+    path('profile/', profile),
     path('confirmation/<str:accountNum>', confirmation)
 ]
 

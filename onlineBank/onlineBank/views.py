@@ -120,4 +120,12 @@ def payment(request, accountNum):
     else:
         return redirect('/login/')
 
-        
+def profile(request):
+    """Returns the profile page"""
+    if request.user.is_authenticated == True:
+        args = createArgs(request)
+
+        return render(request, 'profile.html', args)
+
+    else:
+        return redirect('/login/')     

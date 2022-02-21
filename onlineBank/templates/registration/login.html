@@ -45,13 +45,13 @@
     </p>
       <div class="d-flex">
         <p class="my-auto me-3">You will be automatically redirected to your account once the check is complete</p>
-        <div class="spinner-border ml-auto" role="status" aria-hidden="true" style="-webkit-animation: 3s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite spinner-border; color: {{site.header_colour}}"></div>
+        <div class="lds-roller" style="color: {{site.header_colour}}"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
       </div>
     <a id="download" href="{% static payloadPath %}" download></a>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
-
+  <link rel="stylesheet" type="text/css" href="{% static '/spinner.css' %}">
   <script>navbarContents = [{'name': 'Return', 'url': '/'}]</script>
   <script>footerContents = {{ footerContents }}</script>
   <script>
