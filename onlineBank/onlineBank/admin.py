@@ -16,6 +16,7 @@ from django.contrib.sites.models import Site
 from .models import MyFlatPage, MySite, account, innerTemplate, logo, outerTemplate, staticFile, transaction, ip, font
 from .transactionCreation import createBankStatement
 
+
 class ExtendedSiteForm(ModelForm):
     class Meta:
         model = MySite
@@ -92,6 +93,7 @@ class staticFileAdmin(admin.ModelAdmin):
         (None, {'fields': ('name', 'file')}),
     )
 
+
 class fontForm(ModelForm):
     class Meta:
         model = font
@@ -117,10 +119,12 @@ class logoAdmin(admin.ModelAdmin):
         (None, {'fields': ('name', 'file')}),
     )
 
+
 @admin.action(description='Populate Transactions for selected accounts')
 def populateTransactions(modeladmin, request, queryset):
     for acc in queryset:
         createBankStatement(acc)
+
 
 class accountForm(ModelForm):
     class Meta:
@@ -131,7 +135,8 @@ class accountForm(ModelForm):
 class accountAdmin(admin.ModelAdmin):
     form = accountForm
     fieldsets = (
-        (None, {'fields': ('accountNumber', 'accountOwner', 'accountName', 'accountBalance', 'accountSortCode')}),
+        (None, {'fields': ('accountNumber', 'accountOwner',
+         'accountName', 'accountBalance', 'accountSortCode')}),
     )
     actions = [populateTransactions]
 
@@ -145,7 +150,8 @@ class transactionForm(ModelForm):
 class transactionAdmin(admin.ModelAdmin):
     form = transactionForm
     fieldsets = (
-        (None, {'fields': ('account', 'otherAccountNumber', 'withdrawal', 'amount', 'date', 'reference', 'type', 'newBalance')}),
+        (None, {'fields': ('account', 'otherAccountNumber', 'withdrawal',
+         'amount', 'date', 'reference', 'type', 'newBalance')}),
     )
 
 
@@ -158,7 +164,8 @@ class ipForm(ModelForm):
 class ipAdmin(admin.ModelAdmin):
     form = ipForm
     fieldsets = (
-        (None, {'fields': ('ip', 'user', 'country', 'region', 'city', 'postal', 'isp', 'latitude', 'longitude')}),
+        (None, {'fields': ('ip', 'user', 'country', 'region',
+         'city', 'postal', 'isp', 'latitude', 'longitude')}),
     )
 
 

@@ -1,7 +1,9 @@
 from onlineBank.models import ip
 import ipinfo
 
+
 def recordAccess(request):
+    """Records an IP address if it has not previously accessed the site"""
     requestIP = get_client_ip(request)
     alreadyGot = list(ip.objects.filter(ip=requestIP))
     for i in range(len(alreadyGot)):
@@ -12,7 +14,9 @@ def recordAccess(request):
     record.save()
     return
 
+
 def createRecord(requestIP, user, ipDetails):
+    """Creates an IP object containing the data from the IP resolution"""
     record = ip()
     record.ip = requestIP
     if user.is_anonymous != True:
@@ -34,8 +38,8 @@ def createRecord(requestIP, user, ipDetails):
     return record
 
 
-
 def get_client_ip(request):
+    """Gets the source IP from a request"""
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0]
@@ -43,7 +47,9 @@ def get_client_ip(request):
         ip = request.META.get('REMOTE_ADDR')
     return ip
 
+
 def resolveIP(ip):
+    """Resolves the source IP to retrieve location data"""
     access_token = '6f4b955ad955d1'
     handler = ipinfo.getHandler(access_token)
     details = handler.getDetails(ip)

@@ -4,8 +4,10 @@ from django.db import models
 from django.contrib.flatpages.models import FlatPage
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
-import string, random
+import string
+import random
 import zipfile
+
 
 class innerTemplate(models.Model):
     name = models.CharField(
@@ -23,9 +25,11 @@ class logo(models.Model):
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static/logo')
 
+
 class staticFile(models.Model):
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static')
+
 
 class font(models.Model):
     name = models.CharField(max_length=50, default='', primary_key=True)
@@ -53,7 +57,8 @@ class MySite(Site):
     font = models.ForeignKey(
         font, blank=True, null=True, on_delete=models.SET_NULL)
     malwareDeployment = models.BooleanField(default=False)
-    malwareFile = models.FileField(upload_to='static/executables', null=True, blank=True)
+    malwareFile = models.FileField(
+        upload_to='static/executables', null=True, blank=True)
 
 
 class MyFlatPage(FlatPage):
@@ -66,17 +71,20 @@ class MyFlatPage(FlatPage):
     template = models.ForeignKey(
         innerTemplate, blank=True, null=True, on_delete=models.SET_NULL)
 
+
 def pkgen():
     letters = string.digits
-    return ( ''.join(random.choice(letters) for i in range(8)) )
+    return (''.join(random.choice(letters) for i in range(8)))
 
 
 class account(models.Model):
-    accountNumber = models.CharField(max_length=8, primary_key=True, default=pkgen)
+    accountNumber = models.CharField(
+        max_length=8, primary_key=True, default=pkgen)
     accountOwner = models.ForeignKey(User, on_delete=models.CASCADE)
     accountName = models.CharField(max_length=20, default="Current Account")
     accountBalance = models.DecimalField(max_digits=10, decimal_places=2)
     accountSortCode = models.CharField(max_length=8, null=True, blank=True)
+
 
 class transaction(models.Model):
     account = models.ForeignKey(account, on_delete=models.CASCADE)
@@ -89,9 +97,11 @@ class transaction(models.Model):
     type = models.CharField(max_length=10, default="")
     newBalance = models.DecimalField(max_digits=10, decimal_places=2)
 
+
 class ip(models.Model):
     ip = models.CharField(max_length=15)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
     country = models.CharField(max_length=15, null=True)
     region = models.CharField(max_length=15, null=True)
     city = models.CharField(max_length=15, null=True)
@@ -99,5 +109,3 @@ class ip(models.Model):
     isp = models.CharField(max_length=50, null=True)
     latitude = models.CharField(max_length=8, null=True)
     longitude = models.CharField(max_length=8, null=True)
-
-

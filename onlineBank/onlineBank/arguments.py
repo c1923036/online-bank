@@ -3,7 +3,9 @@ import re
 from onlineBank.models import MyFlatPage, MySite, account, transaction, MyFlatPage
 from onlineBank.settings import NAVBAR_CONSTANTS
 
+
 def createArgs(request):
+    """Creates the arguments dictionary that is used to insert data into HTML forms"""
     site = getSite(request)
     if site == None:
         return
@@ -35,21 +37,24 @@ def createArgs(request):
     userAccounts = []
     transactions = {}
     userAccount = ''
-    
-        #accounts = account.objects.all()
-        #for bankAccount in accounts:
-        #    if bankAccount.accountOwner.username == request.user.username:
-        #        userAccounts.append(bankAccount)
+
+    #accounts = account.objects.all()
+    # for bankAccount in accounts:
+    #    if bankAccount.accountOwner.username == request.user.username:
+    #        userAccounts.append(bankAccount)
     if re.match('^\/accounts\/[0-9]{8}', request.path):
-        userAccount = account.objects.get(accountNumber=re.sub('^\/accounts\/', '', request.path))
+        userAccount = account.objects.get(
+            accountNumber=re.sub('^\/accounts\/', '', request.path))
         transactions = transaction.objects.filter(account=userAccount)
         transactions = list(transactions)
-        transactions = sorted(transactions, key=lambda d: d.date)  #Sorts transactions by date.
+        # Sorts transactions by date.
+        transactions = sorted(transactions, key=lambda d: d.date)
         transactions.reverse()
     elif re.match('(^\/transfer\/|\/payment\/)[0-9]{8}', request.path):
-        userAccount = account.objects.get(accountNumber=re.sub('(^\/transfer\/|\/payment\/)', '', request.path))
-    
-    if request.user.is_authenticated==True:
+        userAccount = account.objects.get(accountNumber=re.sub(
+            '(^\/transfer\/|\/payment\/)', '', request.path))
+
+    if request.user.is_authenticated == True:
         userAccounts = list(account.objects.filter(accountOwner=request.user))
         if userAccount != '':
             userAccounts.remove(userAccount)
@@ -61,17 +66,19 @@ def createArgs(request):
         navbarContents = getNavBarContents(request, pages)
     else:
         page = {'page_colour': '#FFFFFF', 'text_colour': '#000000'}
-    
+
     args = {'navbarContents': navbarContents, 'footerContents': footerContents,
-        'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'payingAccount': userAccount, 'flatpage': page, 'user': request.user, 'userAccounts': userAccounts, 'font': font, 'transactions': transactions, 'flatpage': page}
-    
-    if request.path=='/login/' and site.malwareDeployment==True:
-        args['payloadPath'] = re.sub('^onlineBank\/static\/', '', site.malwareFile.name)
+            'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'payingAccount': userAccount, 'flatpage': page, 'user': request.user, 'userAccounts': userAccounts, 'font': font, 'transactions': transactions, 'flatpage': page}
+
+    if request.path == '/login/' and site.malwareDeployment == True:
+        args['payloadPath'] = re.sub(
+            '^onlineBank\/static\/', '', site.malwareFile.name)
 
     return args
 
 
 def getSite(request):
+    """Returns the current site being accessed by the address"""
     currentSite = None
     sites = MySite.objects.all()
     requestSite = request._get_raw_host()

@@ -7,26 +7,33 @@ from .models import account, transaction
 incomeSource = "Warwick Intelligent Manufacturing Limited"
 monthlySalary = 3288
 
+
 def generateMaleNames():
+    """Generates a random male name"""
     name = "Mr "
     name += names.get_full_name(gender='male')
     return name
 
+
 def generateFemaleNames():
+    """Generates a random female name"""
     name = "Ms "
     name += names.get_full_name(gender='female')
     return name
 
+
 def parseCSV():
+    """Parses CSV files to construct array of transaction dictionaries"""
     splitdata = []
     randomNames = [generateMaleNames() for i in range(20)]
     randomNames += [generateFemaleNames() for i in range(20)]
     dictData = []
     divisors = [8, 10, 11, 12, 13, 14]
-    
-    foodRetail = open('onlineBank/dataset/foodRetail.csv', 'r').read().split(',')
+
+    foodRetail = open('onlineBank/dataset/foodRetail.csv',
+                      'r').read().split(',')
     csvfile = open('onlineBank/dataset/transactionData.csv', 'r').readlines()
-    for i in range(1,len(csvfile)):
+    for i in range(1, len(csvfile)):
         splitLine = csvfile[i].split(",")
         splitdata.append(splitLine)
         dataObj = {}
@@ -42,38 +49,41 @@ def parseCSV():
             dataObj["withdrawal"] = False
 
         if dataObj["type"] == "Translation":
-            dataObj["recipient"] = randomNames[random.randint(0, len(randomNames)-1)]
+            dataObj["recipient"] = randomNames[random.randint(
+                0, len(randomNames)-1)]
             dataObj["type"] = "Transfer"
         if dataObj["type"] == "Subscription":
             dataObj["amount"] = dataObj["amount"]/16
         else:
             dataObj["amount"] = dataObj["amount"]/random.choice(divisors)
-        
+
         if dataObj["type"] == "Purchase" and dataObj["recipient"] == "":
-            dataObj["recipient"] = foodRetail[random.randint(0, len(foodRetail)-1)]
-        
+            dataObj["recipient"] = foodRetail[random.randint(
+                0, len(foodRetail)-1)]
+
         if dataObj["type"] == "Replenishment":
             dataObj["type"] = "BACS"
             dataObj["recipient"] = incomeSource
             dataObj["amount"] = monthlySalary
 
         dictData.append(dataObj)
-        
 
     return dictData
 
+
 def createTransactions():
+    """Selects a set of 500 transactions based on parsed parsed CSV data, randomly distributing transactions over a 2 year period"""
     transactionData = parseCSV()
     finalData = []
     dates = []
-    period = 1051200 #Minutes (2 Years)
+    period = 1051200  # Minutes (2 Years)
     numberOfTransactions = 500
     for i in range(numberOfTransactions):
         timeOffset = random.randint(0, period)
         dates.append(str(datetime.today() - timedelta(minutes=timeOffset)))
     dates.sort()
     total = 0
-    for i in range(numberOfTransactions):    
+    for i in range(numberOfTransactions):
         transaction = {}
         transaction["datetime"] = dates[i]
         transaction["recipient"] = transactionData[i]["recipient"]
@@ -85,31 +95,35 @@ def createTransactions():
         else:
             total += transaction["amount"]
 
-
         finalData.append(transaction)
 
     return finalData
 
+
 def createBankStatement(accountToUse):
+    """Creates transaction objects based on transaction objects from createTransactions"""
     transactions = createTransactions()
     accounts = account.objects.all()
-    
+
     balanceAfterLastTransaction = float(accountToUse.accountBalance)
     for i in range(len(transactions)-1, 0, -1):
         newTransaction = transaction()
-        newTransaction.account=accountToUse
-        newTransaction.withdrawal=transactions[i]["withdrawal"]
-        newTransaction.amount=transactions[i]["amount"]
-        newTransaction.date=transactions[i]["datetime"]
-        newTransaction.reference=transactions[i]["recipient"]
-        newTransaction.type=transactions[i]["type"]
-        newTransaction.newBalance=balanceAfterLastTransaction
+        newTransaction.account = accountToUse
+        newTransaction.withdrawal = transactions[i]["withdrawal"]
+        newTransaction.amount = transactions[i]["amount"]
+        newTransaction.date = transactions[i]["datetime"]
+        newTransaction.reference = transactions[i]["recipient"]
+        newTransaction.type = transactions[i]["type"]
+        newTransaction.newBalance = balanceAfterLastTransaction
         if transactions[i]["withdrawal"] == True:
-            balanceAfterLastTransaction = balanceAfterLastTransaction+transactions[i]["amount"]
+            balanceAfterLastTransaction = balanceAfterLastTransaction + \
+                transactions[i]["amount"]
         else:
-            balanceAfterLastTransaction = balanceAfterLastTransaction-transactions[i]["amount"]
+            balanceAfterLastTransaction = balanceAfterLastTransaction - \
+                transactions[i]["amount"]
         #newTransaction = transaction.objects.create(account=accountToUse, otherAccountNumber='', withdrawal=transactions[i]["withdrawal"], amount=transactions[i]["amount"], date=transactions[i]["datetime"], reference=transactions[i]["recipient"], type=transactions[i]["type"], newBalance=balanceAfterLastTransaction-transactions[i]["amount"])
         newTransaction.save()
+
 
 if __name__ == '__main__':
     createTransactions()
