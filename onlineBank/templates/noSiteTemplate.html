@@ -1,0 +1,18 @@
+{% extends 'template.html' %}
+
+{% block content %}{% autoescape off %}
+
+    <h1>Uh oh! Site Registered</h1>
+    <p><b>How to fix this:</b></p>
+    <p>$ cd onlineBank</p>
+    <p>$ python3 manage.py shell</p>
+    <p>>>> from onlineBank.models import MySite</p>
+    <p>>>> site = MySite.objects.create(domain='&ltyourIP:8000&gt', name='&ltyourIP:8000&gt')</p>
+    <p>>>> site.save()</p>
+    <p>>>> exit</p>
+    <p>Refresh this page!</p>
+
+    <script>navbarContents = {{ navbarContents }}</script>
+    <script>footerContents = {{ footerContents }}</script>
+
+{% endautoescape %}{% endblock %}

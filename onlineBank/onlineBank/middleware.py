@@ -27,7 +27,10 @@ class myFlatpages:
                         # Default inner template value assigned if null.
                         innerTemplate = "flatpages/default.html"
                     args = createArgs(request)
-                    response = render(request, innerTemplate, args)
+                    if args == None:
+                        response = render(request, 'noSiteTemplate.html')
+                    else:
+                        response = render(request, innerTemplate, args)
         return response
 
 

