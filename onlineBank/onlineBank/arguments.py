@@ -17,7 +17,8 @@ def createArgs(request):
         siteLogo = os.path.relpath(
             site.logo.file.url, '/onlineBank/static')
     else:
-        siteLogo = os.path.relpath(logo.objects.get(name='Pigeon').file.url, '/onlineBank/static')
+        siteLogo = os.path.relpath(logo.objects.get(
+            name='Pigeon').file.url, '/onlineBank/static')
 
     if site.font != None:
         font = os.path.relpath(

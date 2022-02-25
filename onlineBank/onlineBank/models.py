@@ -10,39 +10,45 @@ import zipfile
 
 
 class innerTemplate(models.Model):
+    """Declaration of inner template model"""
     name = models.CharField(
         max_length=50, default='template.html', primary_key=True)
     file = models.FileField(upload_to='onlineBank/templates/flatpages')
 
 
 class outerTemplate(models.Model):
+    """Declaration of outer template model"""
     name = models.CharField(
         max_length=50, default='template.html', primary_key=True)
     file = models.FileField(upload_to='onlineBank/templates')
 
 
 class logo(models.Model):
+    """Declaration of logo model"""
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static/logo')
 
 
 class staticFile(models.Model):
+    """Declaration of static file model"""
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static')
 
 
 class font(models.Model):
+    """Declaration of font model"""
     name = models.CharField(max_length=50, default='', primary_key=True)
     file = models.FileField(upload_to='onlineBank/static/fonts')
 
     def save(self, *args, **kwargs):
-        #self.file.save(self.file.field.upload_to, "")
+        """Overriding save method of font to extract zip files"""
         with zipfile.ZipFile(self.file, 'r') as zip_ref:
             zip_ref.extractall(self.file.field.upload_to)
         return super(font, self).save(*args, **kwargs)
 
 
 class MySite(Site):
+    """Declaration of extended Site model"""
     domain_value = models.CharField(max_length=100, blank=True, null=True)
     bankName = models.CharField(
         max_length=50, default='West Midlands Regional Bank')
@@ -62,6 +68,7 @@ class MySite(Site):
 
 
 class MyFlatPage(FlatPage):
+    """Declaration of extended flatpage model"""
     appearOnNavbar = models.BooleanField(default=False)
     appearOnFooter = models.BooleanField(default=False)
     page_colour = models.CharField(max_length=7, default='#FFFFFF')
@@ -73,11 +80,13 @@ class MyFlatPage(FlatPage):
 
 
 def pkgen():
+    """Function to randomly generate account numbers"""
     letters = string.digits
     return (''.join(random.choice(letters) for i in range(8)))
 
 
 class account(models.Model):
+    """Declaration of account model"""
     accountNumber = models.CharField(
         max_length=8, primary_key=True, default=pkgen)
     accountOwner = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -87,6 +96,7 @@ class account(models.Model):
 
 
 class transaction(models.Model):
+    """Declaration of transaction model"""
     account = models.ForeignKey(account, on_delete=models.CASCADE)
     otherAccountNumber = models.CharField(max_length=8, null=True, blank=True)
     otherSortCode = models.CharField(max_length=8, null=True, blank=True)
@@ -99,6 +109,7 @@ class transaction(models.Model):
 
 
 class ip(models.Model):
+    """Declaration of IP model"""
     ip = models.CharField(max_length=15)
     user = models.ForeignKey(
         User, on_delete=models.CASCADE, null=True, blank=True)

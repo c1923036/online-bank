@@ -16,10 +16,8 @@ def confirmation(request, accountNum, amount=None, payeeAccountNum=None, payeeAc
     if request.method == 'POST' and (request.path == '/payment/' + accountNum or request.path == '/transfer/' + accountNum):
         userAccount = account.objects.get(accountNumber=accountNum)
         args = createArgs(request)
-        args['amount'] = amount
-        args['payeeAccountNum'] = payeeAccountNum
-        args['payeeAccountSort'] = payeeAccountSort
-        args['reference'] = reference
+        args.update({'amount': amount, 'payeeAccountNum': payeeAccountNum,
+                    'payeeAccountSort': payeeAccountSort, 'reference': reference})
         return render(request, 'confirmation.html', args)
     elif request.method == 'POST' and request.path == '/confirmation/' + accountNum:
         amount = float(request.POST['currency-field'])

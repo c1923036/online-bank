@@ -2,7 +2,7 @@
 
 {% block content %}{% autoescape off %}
 
-    <h1>Uh oh! Site Registered</h1>
+    <h1>Uh oh! Site Not Registered</h1>
     <p><b>How to fix this:</b></p>
     <p>$ cd onlineBank</p>
     <p>$ python3 manage.py shell</p>
@@ -11,6 +11,7 @@
     <p>>>> site.save()</p>
     <p>>>> exit</p>
     <p>Refresh this page!</p>
+    <p>If you are running an EB deployment you must do this before running $ eb deploy<p>
 
     <script>navbarContents = {{ navbarContents }}</script>
     <script>footerContents = {{ footerContents }}</script>
