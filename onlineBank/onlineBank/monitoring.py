@@ -7,7 +7,7 @@ def recordAccess(request):
     requestIP = get_client_ip(request)
     alreadyGot = list(ip.objects.filter(ip=requestIP))
     for i in range(len(alreadyGot)):
-        if alreadyGot[i].user == request.user:
+        if alreadyGot[i].user == request.user or (alreadyGot[i].user == None and request.user.is_anonymous == True):
             return
     ipDetails = resolveIP(requestIP)
     record = createRecord(requestIP, request.user, ipDetails)
