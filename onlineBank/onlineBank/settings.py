@@ -135,5 +135,6 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+IP_INFO_ACCESS_TOKEN = '6f4b955ad955d1'
 
 NAVBAR_CONSTANTS = [{'name': 'Login', 'url': '/login'}, {'name': 'Logout', 'url': '/logout'}]

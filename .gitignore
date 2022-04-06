@@ -3,3 +3,8 @@ eb-virt
 core/static/test.png
 core/static/core/test.png
 core/static/node_modules
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

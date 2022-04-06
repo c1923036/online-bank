@@ -1,6 +1,6 @@
 from onlineBank.models import ip
 import ipinfo
-
+from onlineBank.settings import IP_INFO_ACCESS_TOKEN
 
 def recordAccess(request):
     """Records an IP address if it has not previously accessed the site"""
@@ -50,7 +50,7 @@ def get_client_ip(request):
 
 def resolveIP(ip):
     """Resolves the source IP to retrieve location data"""
-    access_token = '6f4b955ad955d1'
+    access_token = IP_INFO_ACCESS_TOKEN
     handler = ipinfo.getHandler(access_token)
     details = handler.getDetails(ip)
     return details.all
