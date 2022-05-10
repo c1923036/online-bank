@@ -52,5 +52,8 @@ def resolveIP(ip):
     """Resolves the source IP to retrieve location data"""
     access_token = IP_INFO_ACCESS_TOKEN
     handler = ipinfo.getHandler(access_token)
-    details = handler.getDetails(ip)
+    try:
+        details = handler.getDetails(ip)
+    except:
+        return {}
     return details.all
