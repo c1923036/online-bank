@@ -1,19 +1,3 @@
-# online-bank
-
-A fake online bank that can be used as a Scambaiting Tool
-
-## Usage
-Once the repository has been cloned perform the following commands:
- ```
- $ cd online-bank
- $ python3 manage.py runserver <YOUR IP ADDRESS>:8000
- ```
- 
- In order to access the admin site you will require a registered superuser to register a super user
- ```
- $ python3 manage.py createsuperuser
- ```
-
 # OnlineBank
 
 An online bank framework for the rapid creation and customisation of a fake online bank for the purposes of scambaiting.
@@ -28,14 +12,17 @@ https://github.com/c1923036/onlineBank
 Setting up the server locally is a simple yet effective approach to using the framework. The majority of the functionality is retained, the notable difference with this setup is that the webserver is hosted locally and will only be accessible from inside your network, therefore the scammer will not be able to directly access the bank from their computer. This is still effective however since most scammers will interface with the bank through your computer.
 Once you have installed and extracted the files, if necessary, the first step is to enter the onlineBank directory, inside this directory you should see a file called manage.py. Click on the search bar at the top of the file explorer and copy the path to your current directory.
 The next step is to open a terminal, we shall use the Windows Command Prompt. To open the Command Prompt, press the Windows Key, then type into the search “cmd” and press enter. Cmd.exe should appear on your screen. You then want to type into the terminal “cd ” and then right-click to paste the path into the terminal. You should have something that looks like this:
- 
+![](.images/terminal.png)
+
 Press the enter key and you should enter the directory you were previously inside with the file explorer.
 You should now be ready to start the webserver. You can do this by entering the command
 ```
 $ Python3 manage.py runserver
 ```
 The server should now start running. You can test it by opening the following link in your web browser of choice.
+
 http://127.0.0.1/
+
 You should now be able to see the default homepage of the bank.
 There are several pages you can visit from here to help you get to grips with the default capabilities of the bank. 
 - 127.0.0.1/about – Example flatpage
@@ -104,6 +91,8 @@ The MyFlatpages model is for holding your own custom pages on the site. You can 
 #### outerTemplate and innerTemplate
 The outerTemplate model is an HTML upload that allows a user to apply and add a template to their site. The outer template represents the sections of the HTML page that should appear sitewide. As can be seen in the example below the outer template is made up of a header, footer and margins.
 The innerTemplate is also an HTML template upload allowing a user to apply a template to a flatpage. The inner template sits within the outer template and is applied on a page-by-page basis. As can be seen in the example below the innerTemplate is the centre of the page excluding the margins.
+
+![](.images/template.png)
  
 #### logo
 The logo model is an opportunity for a user to change the site’s logo. The logo model allows users to upload images, the site’s logo can then be set by selecting the image from the site model.
@@ -140,24 +129,32 @@ Each instance of the account model represents a bank account. The model is attac
 Populating an Account with Transactions
 1.	Log in to the admin panel and select the account model.
 2.	Select the account you wish to populate by checking the accounts checkbox.
- 
+
+![](.images/admin_panel.png)
+
 3.	On the action box select the action, “Populate Transactions for Selected Accounts”.
 4.	Press Go.
 transaction
 The transaction model represents all the transactions within the bank. Each instance of the model represents one transaction. A transaction comes attached to an instance of the account model and contains all the necessary transaction details, where the money is going or where it has come from, the amount, date, and reference.
-ip
+
+#### ip
 The ip model is related to recording as much information about scammers as possible. Unlike other models that are focused on users inputting data through the admin panel, the ip model is a data output model. IP addresses that access the site are recorded and resolved through the IPInfo API, adding location data to the model.
 Setting up IP Address Resolution
 The IPInfo API is a free API enabling users to enter an IP address and be returned a rough location of the IP address. Whilst the API is free, it requires an API key and users must create an account to acquire a key.
 1.	Go to https://ipinfo.io/signup.
 2.	Create an account.
-3.	Select token and copy your access token to your clipboard.
-4.	Open the file onlineBank/settings.py.
-5.	Paste the token into the field, IP_INFO_ACCESS_TOKEN.
+
+
+
+4.	Select token and copy your access token to your clipboard.
+5.	Open the file onlineBank/settings.py.
+6.	Paste the token into the field, IP_INFO_ACCESS_TOKEN.
 
 ### Advanced Customisation
 More advanced customisation of the site is possible however this requires more pre-requisite knowledge. A user may for example wish to add an entirely new model, some steps should be followed to make these changes.
- It is important for users who wish to make more advanced changes to understand where the sections of code are located. The diagram below outlines what each file within the onlineBank directory contains.
+It is important for users who wish to make more advanced changes to understand where the sections of code are located. The diagram below outlines what each file within the onlineBank directory contains.
+ 
+![](.images/content.png)
  
 If models are created, edited, or deleted some steps should be taken to update the SQLite database.
 First, a terminal should be opened in the onlineBank directory the user must then execute two commands.
