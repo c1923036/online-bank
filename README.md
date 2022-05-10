@@ -88,6 +88,8 @@ The site model holds the overarching variables for your fake bank. Here you can 
 #### MyFlatpage
 The MyFlatpages model is for holding your own custom pages on the site. You can configure where on the site you want the page to appear with the URL field, if you want it to appear on the navbar, and or the footer. Fundamentally, you can enter your own custom HTML to appear on the page.
 
+Bootstrap 5 has been included for the convenience of creating templates.
+
 #### outerTemplate and innerTemplate
 The outerTemplate model is an HTML upload that allows a user to apply and add a template to their site. The outer template represents the sections of the HTML page that should appear sitewide. As can be seen in the example below the outer template is made up of a header, footer and margins.
 The innerTemplate is also an HTML template upload allowing a user to apply a template to a flatpage. The inner template sits within the outer template and is applied on a page-by-page basis. As can be seen in the example below the innerTemplate is the centre of the page excluding the margins.
@@ -139,16 +141,15 @@ The transaction model represents all the transactions within the bank. Each inst
 
 #### ip
 The ip model is related to recording as much information about scammers as possible. Unlike other models that are focused on users inputting data through the admin panel, the ip model is a data output model. IP addresses that access the site are recorded and resolved through the IPInfo API, adding location data to the model.
+
 Setting up IP Address Resolution
+
 The IPInfo API is a free API enabling users to enter an IP address and be returned a rough location of the IP address. Whilst the API is free, it requires an API key and users must create an account to acquire a key.
 1.	Go to https://ipinfo.io/signup.
 2.	Create an account.
-
-
-
-4.	Select token and copy your access token to your clipboard.
-5.	Open the file onlineBank/settings.py.
-6.	Paste the token into the field, IP_INFO_ACCESS_TOKEN.
+3.	Select token and copy your access token to your clipboard.
+4.	Open the file onlineBank/settings.py.
+5.	Paste the token into the field, IP_INFO_ACCESS_TOKEN.
 
 ### Advanced Customisation
 More advanced customisation of the site is possible however this requires more pre-requisite knowledge. A user may for example wish to add an entirely new model, some steps should be followed to make these changes.
