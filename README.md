@@ -1,4 +1,4 @@
-# OnlineBank
+# Online Bank
 
 An online bank framework for the rapid creation and customisation of a fake online bank for the purposes of scambaiting.
 
